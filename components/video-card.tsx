@@ -6,7 +6,7 @@ import type { Video } from "@/lib/types";
 
 export function VideoCard({ video }: { video: Video }) {
   return (
-    <Link href={`/videos/${video.slug}`} className="group block border-t border-academy-line/15 pt-4 transition hover:border-academy-blue/70">
+    <Link href={`/videos/${video.slug}`} className="group block overflow-hidden rounded-[1.75rem] border border-academy-line/10 bg-academy-panel transition hover:-translate-y-1 hover:border-academy-blue/70 hover:shadow-[0_22px_70px_rgba(0,0,0,.18)]">
       <div className="relative aspect-video overflow-hidden bg-academy-charcoal">
         {video.thumbnail ? (
           <Image src={video.thumbnail} alt="" fill className="object-cover opacity-75 transition group-hover:scale-105 group-hover:opacity-90" sizes="(min-width: 768px) 33vw, 100vw" />
@@ -17,7 +17,7 @@ export function VideoCard({ video }: { video: Video }) {
           <PlayCircle className="text-academy-blue drop-shadow" size={54} aria-hidden="true" />
         </span>
       </div>
-      <div className="py-5">
+      <div className="p-5 md:p-6">
         <div className="flex flex-wrap gap-2">
           <Badge tone="blue">{video.category}</Badge>
           <Badge>{video.level}</Badge>

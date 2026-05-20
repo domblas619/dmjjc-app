@@ -18,21 +18,36 @@ export default async function HomePage() {
   return (
     <>
       <Hero />
-      <PageSection>
+      <PageSection tone="warm">
         <StatusCard status={status} />
       </PageSection>
-      <PageSection eyebrow="Important Dates" title="Upcoming Events">
-        <div>
+      <PageSection
+        eyebrow="Schedule / Events"
+        title="Important Dates"
+        description="Upcoming closures, events, and schedule changes."
+        tone="dark"
+      >
+        <div className="grid gap-4 lg:grid-cols-3">
           {events.slice(0, 3).map((event) => <EventCard key={event.slug} event={event} />)}
         </div>
       </PageSection>
-      <PageSection eyebrow="Academy Updates" title="Latest Announcements">
-        <div>
+      <PageSection
+        eyebrow="Member Notices"
+        title="Academy Notes"
+        description="The latest from Del Mar Jiu-Jitsu Club."
+        tone="warm"
+      >
+        <div className="grid gap-4 md:grid-cols-3">
           {announcements.slice(0, 3).map((announcement) => <AnnouncementCard key={announcement.slug} announcement={announcement} />)}
         </div>
       </PageSection>
       {featuredVideo && (
-        <PageSection eyebrow="Training Resource" title="Featured Video">
+        <PageSection
+          eyebrow="Study / Movement"
+          title="Training Resource"
+          description="Featured movement, drills, and study material for students."
+          tone="dark"
+        >
           <div className="max-w-3xl">
             <VideoCard video={featuredVideo} />
           </div>

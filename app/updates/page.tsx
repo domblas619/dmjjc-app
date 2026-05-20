@@ -11,11 +11,13 @@ export default async function UpdatesPage() {
   const announcements = await getAnnouncements();
 
   return (
-    <PageSection eyebrow="Academy Updates" title="Announcements">
-      <p className="mb-6 max-w-2xl text-lg font-medium leading-8 text-academy-mist">
-        Fast, scannable updates for schedule notes, closures, kids program reminders, adult program news, and community announcements.
-      </p>
-      <div>
+    <PageSection
+      eyebrow="Member Notices"
+      title="Academy Notes"
+      description="Fast, scannable updates for schedule notes, closures, kids program reminders, adult program news, and community announcements."
+      tone="warm"
+    >
+      <div className="grid gap-4 md:grid-cols-2">
         {announcements.map((announcement) => <AnnouncementCard key={announcement.slug} announcement={announcement} />)}
       </div>
     </PageSection>

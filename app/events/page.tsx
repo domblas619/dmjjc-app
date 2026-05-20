@@ -11,11 +11,13 @@ export default async function EventsPage() {
   const events = await getEvents();
 
   return (
-    <PageSection eyebrow="Calendar" title="Events & Closures">
-      <p className="mb-6 max-w-2xl text-lg font-medium leading-8 text-academy-mist">
-        Upcoming academy dates, holidays, special schedules, tournaments, seminars, and in-house community events.
-      </p>
-      <div>
+    <PageSection
+      eyebrow="Schedule / Events"
+      title="Important Dates"
+      description="Upcoming academy dates, holidays, special schedules, tournaments, seminars, and in-house community events."
+      tone="dark"
+    >
+      <div className="grid gap-4 lg:grid-cols-2">
         {events.map((event) => <EventCard key={event.slug} event={event} />)}
       </div>
     </PageSection>

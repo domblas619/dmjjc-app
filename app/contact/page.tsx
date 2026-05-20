@@ -16,10 +16,12 @@ export default function ContactPage() {
   ];
 
   return (
-    <PageSection eyebrow="Help" title="Contact the Academy">
-      <p className="mb-6 max-w-2xl text-lg font-medium leading-8 text-academy-mist">
-        Questions about the Community Hub? Contact the academy and we'll help you out.
-      </p>
+    <PageSection
+      eyebrow="Help"
+      title="Contact the Academy"
+      description="Questions about the Community Hub? Contact the academy and we'll help you out."
+      tone="warm"
+    >
       <div>
         {items.map(({ icon: Icon, label, value, href }) => (
           <article key={label} className="grid gap-4 border-t border-academy-line/15 py-5 last:border-b md:grid-cols-[.6fr_1.4fr] md:items-center">

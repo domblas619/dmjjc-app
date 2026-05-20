@@ -1,0 +1,18 @@
+{
+  "name": "Del Mar Jiu-Jitsu Club",
+  "short_name": "DMJJC Hub",
+  "description": "Community Hub for Del Mar Jiu-Jitsu Club updates, events, closures, and training videos.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05070a",
+  "theme_color": "#00aeef",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

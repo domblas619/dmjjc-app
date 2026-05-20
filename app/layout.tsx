@@ -1,11 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { BottomNav } from "@/components/bottom-nav";
 import { ThemeScript } from "@/components/theme-script";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  weight: ["400", "500", "600", "700", "800", "900"]
+});
 
 export const metadata: Metadata = {
   title: {
@@ -39,7 +44,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} min-h-screen font-sans antialiased`}>
+      <body className={`${inter.variable} ${outfit.variable} min-h-screen font-sans antialiased`}>
         <ThemeScript />
         <Header />
         <main className="pb-24 pt-20 md:pb-10">{children}</main>

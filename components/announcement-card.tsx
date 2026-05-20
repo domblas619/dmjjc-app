@@ -10,7 +10,7 @@ export function AnnouncementCard({ announcement }: { announcement: Announcement 
         <span className="text-xs font-black uppercase tracking-[.14em] text-academy-muted/80">{formatDate(announcement.publishedAt)}</span>
       </div>
       <div className="mt-4 grid gap-3 md:grid-cols-[.9fr_1.1fr]">
-        <h3 className="text-3xl font-black uppercase leading-[.95] text-academy-foreground transition group-hover:text-academy-blue">{announcement.title}</h3>
+        <h3 className="font-display text-2xl font-black uppercase leading-[.95] text-academy-foreground transition group-hover:text-academy-blue sm:text-3xl">{announcement.title}</h3>
         <p className="text-base font-medium leading-7 text-academy-mist">{announcement.body}</p>
       </div>
     </article>

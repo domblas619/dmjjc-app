@@ -15,7 +15,7 @@ export function EventCard({ event }: { event: AcademyEvent }) {
           <Badge tone={urgent ? "amber" : "blue"}>{event.eventType}</Badge>
           {urgent && <Badge tone="red">Check before class</Badge>}
         </div>
-        <h3 className="mt-4 text-3xl font-black uppercase leading-[.95] text-academy-foreground">{event.title}</h3>
+        <h3 className="mt-4 font-display text-2xl font-black uppercase leading-[.95] text-academy-foreground sm:text-3xl">{event.title}</h3>
       </div>
       <div>
         <div className="space-y-2 text-sm font-black uppercase tracking-[.12em] text-academy-muted">

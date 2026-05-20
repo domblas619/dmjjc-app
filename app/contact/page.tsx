@@ -28,9 +28,9 @@ export default function ContactPage() {
               <h2 className="text-sm font-black uppercase tracking-[.16em] text-academy-muted">{label}</h2>
             </div>
             {href ? (
-              <a className="block text-2xl font-black uppercase leading-8 text-academy-foreground hover:text-academy-blue" href={href}>{value}</a>
+              <a className="block font-display text-xl font-black uppercase leading-7 text-academy-foreground hover:text-academy-blue sm:text-2xl sm:leading-8" href={href}>{value}</a>
             ) : (
-              <p className="text-2xl font-black uppercase leading-8 text-academy-foreground">{value}</p>
+              <p className="font-display text-xl font-black uppercase leading-7 text-academy-foreground sm:text-2xl sm:leading-8">{value}</p>
             )}
           </article>
         ))}

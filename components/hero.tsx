@@ -10,7 +10,7 @@ export function Hero() {
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,174,239,.12),transparent_40%),linear-gradient(135deg,rgb(var(--academy-black)),rgb(var(--academy-charcoal)))]" />
             <div className="relative max-w-3xl pb-4">
             <Badge tone="blue">Driven by Community</Badge>
-            <h1 className="mt-6 text-5xl font-black uppercase leading-[.82] text-academy-foreground md:text-8xl">
+            <h1 className="mt-6 font-display text-[2.7rem] font-black uppercase leading-[.86] text-academy-foreground sm:text-5xl md:text-8xl">
               Del Mar Jiu-Jitsu Club Community Hub
             </h1>
             <p className="mt-6 max-w-2xl text-lg font-medium leading-8 text-academy-mist md:text-xl">
@@ -30,7 +30,7 @@ export function Hero() {
             <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(0,0,0,.18))]" />
             <div className="absolute bottom-5 left-5 right-5">
               <p className="text-xs font-black uppercase tracking-[.22em] text-academy-blue">Del Mar, California</p>
-              <p className="mt-2 text-2xl font-black uppercase leading-none text-academy-foreground">Just blocks from the surf</p>
+              <p className="mt-2 font-display text-xl font-black uppercase leading-none text-academy-foreground sm:text-2xl">Just blocks from the surf</p>
             </div>
           </div>
         </div>

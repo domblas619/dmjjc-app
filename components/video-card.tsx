@@ -22,7 +22,7 @@ export function VideoCard({ video }: { video: Video }) {
           <Badge tone="blue">{video.category}</Badge>
           <Badge>{video.level}</Badge>
         </div>
-        <h3 className="mt-4 text-3xl font-black uppercase leading-[.95] text-academy-foreground transition group-hover:text-academy-blue">{video.title}</h3>
+        <h3 className="mt-4 font-display text-2xl font-black uppercase leading-[.95] text-academy-foreground transition group-hover:text-academy-blue sm:text-3xl">{video.title}</h3>
         <p className="mt-3 text-base font-medium leading-7 text-academy-mist">{video.description}</p>
       </div>
     </Link>

@@ -17,7 +17,7 @@ export function StatusCard({ status }: { status: SiteStatus }) {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-black uppercase tracking-[.16em] text-academy-blue">Today's Status</p>
-          <h2 className="mt-2 text-4xl font-black uppercase leading-none text-academy-foreground">{status.title}</h2>
+          <h2 className="mt-2 font-display text-3xl font-black uppercase leading-none text-academy-foreground sm:text-4xl">{status.title}</h2>
         </div>
         <Badge tone={statusTone[status.statusType]}>{status.statusType}</Badge>
       </div>

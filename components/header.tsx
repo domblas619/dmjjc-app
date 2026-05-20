@@ -19,7 +19,7 @@ export function Header() {
             />
           </span>
           <span>
-            <span className="block text-base font-black leading-none text-academy-foreground">Del Mar Jiu-Jitsu Club</span>
+            <span className="block font-display text-base font-black leading-none text-academy-foreground">Del Mar Jiu-Jitsu Club</span>
             <span className="mt-1 block text-xs font-bold uppercase tracking-[.18em] text-academy-blue">Community Hub</span>
           </span>
         </Link>

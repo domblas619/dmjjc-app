@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { BottomNav } from "@/components/bottom-nav";
+import { ThemeScript } from "@/components/theme-script";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${inter.variable} min-h-screen font-sans antialiased`}>
+        <ThemeScript />
         <Header />
         <main className="pb-24 pt-20 md:pb-10">{children}</main>
         <BottomNav />

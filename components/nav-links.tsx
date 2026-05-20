@@ -24,7 +24,7 @@ export function NavLinks({ mobile = false }: { mobile?: boolean }) {
         className={cn(
           "inline-flex items-center gap-2 rounded-full font-bold transition",
           mobile ? "flex-col gap-1 px-2 py-2 text-[11px]" : "px-4 py-2 text-sm",
-          active ? "bg-academy-blue text-academy-black" : "text-academy-mist hover:bg-white/[.08] hover:text-white"
+          active ? "bg-academy-blue text-academy-black" : "text-academy-mist hover:bg-academy-card/[.08] hover:text-academy-foreground"
         )}
       >
         <Icon size={mobile ? 20 : 17} aria-hidden="true" />

@@ -11,7 +11,7 @@ const tones = {
   green: "border-emerald-400/40 bg-emerald-400/[.15] text-emerald-200",
   amber: "border-amber-300/50 bg-amber-300/[.15] text-amber-100",
   red: "border-red-400/50 bg-red-500/[.15] text-red-100",
-  neutral: "border-white/15 bg-white/[.08] text-academy-mist"
+  neutral: "border-academy-line/15 bg-academy-card/[.08] text-academy-mist"
 };
 
 export function Badge({ children, tone = "neutral", className }: BadgeProps) {

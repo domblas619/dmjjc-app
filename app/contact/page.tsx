@@ -22,13 +22,13 @@ export default function ContactPage() {
       </p>
       <div className="grid gap-4 md:grid-cols-2">
         {items.map(({ icon: Icon, label, value, href }) => (
-          <article key={label} className="rounded-3xl border border-white/10 bg-white/[.055] p-5">
+          <article key={label} className="rounded-3xl border border-academy-line/10 bg-academy-card/[.055] p-5">
             <Icon className="text-academy-blue" size={28} aria-hidden="true" />
-            <h2 className="mt-4 text-sm font-black uppercase tracking-[.16em] text-white/55">{label}</h2>
+            <h2 className="mt-4 text-sm font-black uppercase tracking-[.16em] text-academy-muted">{label}</h2>
             {href ? (
-              <a className="mt-2 block text-xl font-black leading-8 text-white hover:text-academy-blue" href={href}>{value}</a>
+              <a className="mt-2 block text-xl font-black leading-8 text-academy-foreground hover:text-academy-blue" href={href}>{value}</a>
             ) : (
-              <p className="mt-2 text-xl font-black leading-8 text-white">{value}</p>
+              <p className="mt-2 text-xl font-black leading-8 text-academy-foreground">{value}</p>
             )}
           </article>
         ))}

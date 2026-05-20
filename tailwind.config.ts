@@ -10,14 +10,17 @@ const config: Config = {
     extend: {
       colors: {
         academy: {
-          black: "#05070a",
-          ink: "#080b0f",
-          charcoal: "#101722",
-          panel: "#151f2b",
-          line: "#263647",
+          black: "rgb(var(--academy-black) / <alpha-value>)",
+          ink: "rgb(var(--academy-ink) / <alpha-value>)",
+          charcoal: "rgb(var(--academy-charcoal) / <alpha-value>)",
+          panel: "rgb(var(--academy-panel) / <alpha-value>)",
+          card: "rgb(var(--academy-card) / <alpha-value>)",
+          line: "rgb(var(--academy-line) / <alpha-value>)",
+          foreground: "rgb(var(--academy-foreground) / <alpha-value>)",
+          muted: "rgb(var(--academy-muted) / <alpha-value>)",
           blue: "#00aeef",
           sand: "#e7ded0",
-          mist: "#c7d5df"
+          mist: "rgb(var(--academy-muted) / <alpha-value>)"
         }
       },
       boxShadow: {

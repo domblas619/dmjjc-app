@@ -17,12 +17,12 @@ export function StatusCard({ status }: { status: SiteStatus }) {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-black uppercase tracking-[.16em] text-academy-blue">Today's Status</p>
-          <h2 className="mt-2 text-3xl font-black text-white">{status.title}</h2>
+          <h2 className="mt-2 text-3xl font-black text-academy-foreground">{status.title}</h2>
         </div>
         <Badge tone={statusTone[status.statusType]}>{status.statusType}</Badge>
       </div>
       <p className="mt-4 text-lg font-medium leading-8 text-academy-mist">{status.message}</p>
-      <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-white/60">
+      <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-academy-muted">
         <Clock3 size={16} aria-hidden="true" />
         Updated {formatStatusDate(status.updatedAt)}
       </p>

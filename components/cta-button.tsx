@@ -16,7 +16,7 @@ export function CtaButton({ href, children, variant = "primary" }: CtaButtonProp
         "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-base font-black transition active:scale-[.98]",
         variant === "primary"
           ? "bg-academy-blue text-academy-black shadow-glow hover:bg-sky-300"
-          : "border border-white/15 bg-white/[.08] text-white hover:border-academy-blue/50 hover:text-academy-blue"
+          : "border border-academy-line/15 bg-academy-card/[.08] text-academy-foreground hover:border-academy-blue/50 hover:text-academy-blue"
       )}
     >
       {children}

@@ -24,7 +24,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
   return (
     <>
       <PageSection eyebrow={video.category} title={video.title}>
-        <div className="overflow-hidden rounded-3xl border border-white/10 bg-academy-black shadow-glow">
+        <div className="overflow-hidden rounded-3xl border border-academy-line/10 bg-academy-black shadow-glow">
           <div className="aspect-video bg-black">
             <iframe
               className="size-full"

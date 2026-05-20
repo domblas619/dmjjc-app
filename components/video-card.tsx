@@ -6,7 +6,7 @@ import type { Video } from "@/lib/types";
 
 export function VideoCard({ video }: { video: Video }) {
   return (
-    <Link href={`/videos/${video.slug}`} className="group block overflow-hidden rounded-3xl border border-white/10 bg-white/[.055] transition hover:-translate-y-1 hover:border-academy-blue/40 hover:bg-white/[.08]">
+    <Link href={`/videos/${video.slug}`} className="group block overflow-hidden rounded-3xl border border-academy-line/10 bg-academy-card/[.055] transition hover:-translate-y-1 hover:border-academy-blue/40 hover:bg-academy-card/[.08]">
       <div className="relative aspect-video overflow-hidden bg-academy-charcoal">
         {video.thumbnail ? (
           <Image src={video.thumbnail} alt="" fill className="object-cover opacity-75 transition group-hover:scale-105 group-hover:opacity-90" sizes="(min-width: 768px) 33vw, 100vw" />
@@ -22,7 +22,7 @@ export function VideoCard({ video }: { video: Video }) {
           <Badge tone="blue">{video.category}</Badge>
           <Badge>{video.level}</Badge>
         </div>
-        <h3 className="mt-4 text-2xl font-black leading-tight text-white">{video.title}</h3>
+        <h3 className="mt-4 text-2xl font-black leading-tight text-academy-foreground">{video.title}</h3>
         <p className="mt-3 text-base font-medium leading-7 text-academy-mist">{video.description}</p>
       </div>
     </Link>

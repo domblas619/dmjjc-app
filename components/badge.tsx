@@ -7,11 +7,11 @@ type BadgeProps = {
 };
 
 const tones = {
-  blue: "border-academy-blue/40 bg-academy-blue/[.15] text-academy-blue",
-  green: "border-emerald-400/40 bg-emerald-400/[.15] text-emerald-200",
-  amber: "border-amber-300/50 bg-amber-300/[.15] text-amber-100",
-  red: "border-red-400/50 bg-red-500/[.15] text-red-100",
-  neutral: "border-academy-line/15 bg-academy-card/[.08] text-academy-mist"
+  blue: "border-academy-blue bg-academy-blue text-academy-black",
+  green: "border-emerald-300 bg-emerald-300 text-emerald-950",
+  amber: "border-amber-300 bg-amber-300 text-amber-950",
+  red: "border-red-300 bg-red-300 text-red-950",
+  neutral: "border-academy-line/30 bg-academy-foreground text-academy-black"
 };
 
 export function Badge({ children, tone = "neutral", className }: BadgeProps) {

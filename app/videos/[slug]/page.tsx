@@ -24,7 +24,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
   return (
     <>
       <PageSection eyebrow={video.category} title={video.title}>
-        <div className="overflow-hidden rounded-3xl border border-academy-line/10 bg-academy-black shadow-glow">
+        <div className="overflow-hidden border border-academy-line/10 bg-academy-black">
           <div className="aspect-video bg-black">
             <iframe
               className="size-full"
@@ -34,13 +34,13 @@ export default async function VideoPage({ params }: VideoPageProps) {
               allowFullScreen
             />
           </div>
-          <div className="p-5 md:p-7">
+          <div className="border-t border-academy-line/10 p-5 md:p-7">
             <div className="flex flex-wrap gap-2">
               <Badge tone="blue">{video.category}</Badge>
               <Badge>{video.level}</Badge>
             </div>
             <p className="mt-5 text-lg font-medium leading-8 text-academy-mist">{video.description}</p>
-            <div className="mt-6 rounded-2xl border border-amber-300/40 bg-amber-300/10 p-4 text-base font-bold leading-7 text-amber-50">
+            <div className="mt-6 border-l-4 border-academy-blue bg-academy-blue/[.08] p-4 text-base font-bold leading-7 text-academy-foreground">
               Practice with control. If you are unsure about a technique, ask a coach before drilling it at home.
             </div>
           </div>

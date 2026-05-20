@@ -15,7 +15,7 @@ export default async function EventsPage() {
       <p className="mb-6 max-w-2xl text-lg font-medium leading-8 text-academy-mist">
         Upcoming academy dates, holidays, special schedules, tournaments, seminars, and in-house community events.
       </p>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div>
         {events.map((event) => <EventCard key={event.slug} event={event} />)}
       </div>
     </PageSection>

@@ -13,11 +13,11 @@ const statusTone = {
 
 export function StatusCard({ status }: { status: SiteStatus }) {
   return (
-    <article className="rounded-3xl border border-academy-blue/30 bg-academy-panel p-5 shadow-glow md:p-7">
+    <article className="border-y border-academy-blue/40 bg-academy-blue/[.08] px-5 py-6 md:px-8">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-black uppercase tracking-[.16em] text-academy-blue">Today's Status</p>
-          <h2 className="mt-2 text-3xl font-black text-academy-foreground">{status.title}</h2>
+          <h2 className="mt-2 text-4xl font-black uppercase leading-none text-academy-foreground">{status.title}</h2>
         </div>
         <Badge tone={statusTone[status.statusType]}>{status.statusType}</Badge>
       </div>

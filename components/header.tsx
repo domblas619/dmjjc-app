@@ -8,7 +8,7 @@ export function Header() {
     <header className="fixed inset-x-0 top-0 z-40 border-b border-academy-line/10 bg-academy-black/85 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 md:px-8">
         <Link href="/" className="flex items-center gap-3">
-          <span className="grid size-11 place-items-center rounded-full bg-academy-blue text-academy-black">
+          <span className="grid size-11 place-items-center bg-academy-blue text-academy-black">
             <Waves size={22} aria-hidden="true" />
           </span>
           <span>

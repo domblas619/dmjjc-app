@@ -4,13 +4,15 @@ import type { Announcement } from "@/lib/types";
 
 export function AnnouncementCard({ announcement }: { announcement: Announcement }) {
   return (
-    <article className="rounded-3xl border border-academy-line/10 bg-academy-card/[.055] p-5 transition hover:border-academy-blue/40 hover:bg-academy-card/[.08]">
-      <div className="flex flex-wrap items-center gap-2">
+    <article className="group border-t border-academy-line/15 py-5 transition last:border-b hover:border-academy-blue/60">
+      <div className="flex flex-wrap items-center gap-3">
         <Badge tone={announcement.category === "Closure" ? "red" : "blue"}>{announcement.category}</Badge>
-        <span className="text-sm font-bold text-academy-muted/80">{formatDate(announcement.publishedAt)}</span>
+        <span className="text-xs font-black uppercase tracking-[.14em] text-academy-muted/80">{formatDate(announcement.publishedAt)}</span>
       </div>
-      <h3 className="mt-4 text-2xl font-black leading-tight text-academy-foreground">{announcement.title}</h3>
-      <p className="mt-3 text-base font-medium leading-7 text-academy-mist">{announcement.body}</p>
+      <div className="mt-4 grid gap-3 md:grid-cols-[.9fr_1.1fr]">
+        <h3 className="text-3xl font-black uppercase leading-[.95] text-academy-foreground transition group-hover:text-academy-blue">{announcement.title}</h3>
+        <p className="text-base font-medium leading-7 text-academy-mist">{announcement.body}</p>
+      </div>
     </article>
   );
 }

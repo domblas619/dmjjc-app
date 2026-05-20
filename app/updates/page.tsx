@@ -15,7 +15,7 @@ export default async function UpdatesPage() {
       <p className="mb-6 max-w-2xl text-lg font-medium leading-8 text-academy-mist">
         Fast, scannable updates for schedule notes, closures, kids program reminders, adult program news, and community announcements.
       </p>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div>
         {announcements.map((announcement) => <AnnouncementCard key={announcement.slug} announcement={announcement} />)}
       </div>
     </PageSection>

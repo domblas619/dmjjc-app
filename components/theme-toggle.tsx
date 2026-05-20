@@ -36,7 +36,7 @@ export function ThemeToggle() {
         window.localStorage.setItem("dmjjc-theme", nextTheme);
         applyTheme(nextTheme);
       }}
-      className="inline-flex min-h-11 items-center gap-2 rounded-full border border-academy-line/15 bg-academy-card/[.08] px-3 text-sm font-black text-academy-foreground transition hover:border-academy-blue/50 hover:text-academy-blue"
+      className="inline-flex min-h-11 items-center gap-2 border border-academy-line/15 bg-transparent px-3 text-sm font-black uppercase tracking-[.12em] text-academy-foreground transition hover:border-academy-blue/50 hover:text-academy-blue"
       aria-label={`Switch to ${nextTheme} mode`}
       title={`Switch to ${nextTheme} mode`}
     >

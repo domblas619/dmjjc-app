@@ -6,7 +6,7 @@ import type { Video } from "@/lib/types";
 
 export function VideoCard({ video }: { video: Video }) {
   return (
-    <Link href={`/videos/${video.slug}`} className="group block overflow-hidden rounded-3xl border border-academy-line/10 bg-academy-card/[.055] transition hover:-translate-y-1 hover:border-academy-blue/40 hover:bg-academy-card/[.08]">
+    <Link href={`/videos/${video.slug}`} className="group block border-t border-academy-line/15 pt-4 transition hover:border-academy-blue/70">
       <div className="relative aspect-video overflow-hidden bg-academy-charcoal">
         {video.thumbnail ? (
           <Image src={video.thumbnail} alt="" fill className="object-cover opacity-75 transition group-hover:scale-105 group-hover:opacity-90" sizes="(min-width: 768px) 33vw, 100vw" />
@@ -17,12 +17,12 @@ export function VideoCard({ video }: { video: Video }) {
           <PlayCircle className="text-academy-blue drop-shadow" size={54} aria-hidden="true" />
         </span>
       </div>
-      <div className="p-5">
+      <div className="py-5">
         <div className="flex flex-wrap gap-2">
           <Badge tone="blue">{video.category}</Badge>
           <Badge>{video.level}</Badge>
         </div>
-        <h3 className="mt-4 text-2xl font-black leading-tight text-academy-foreground">{video.title}</h3>
+        <h3 className="mt-4 text-3xl font-black uppercase leading-[.95] text-academy-foreground transition group-hover:text-academy-blue">{video.title}</h3>
         <p className="mt-3 text-base font-medium leading-7 text-academy-mist">{video.description}</p>
       </div>
     </Link>

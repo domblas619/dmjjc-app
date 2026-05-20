@@ -22,18 +22,18 @@ export default async function HomePage() {
         <StatusCard status={status} />
       </PageSection>
       <PageSection eyebrow="Important Dates" title="Upcoming Events">
-        <div className="grid gap-4 md:grid-cols-3">
+        <div>
           {events.slice(0, 3).map((event) => <EventCard key={event.slug} event={event} />)}
         </div>
       </PageSection>
       <PageSection eyebrow="Academy Updates" title="Latest Announcements">
-        <div className="grid gap-4 md:grid-cols-3">
+        <div>
           {announcements.slice(0, 3).map((announcement) => <AnnouncementCard key={announcement.slug} announcement={announcement} />)}
         </div>
       </PageSection>
       {featuredVideo && (
         <PageSection eyebrow="Training Resource" title="Featured Video">
-          <div className="max-w-xl">
+          <div className="max-w-3xl">
             <VideoCard video={featuredVideo} />
           </div>
         </PageSection>

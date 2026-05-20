@@ -33,13 +33,15 @@ The app works without Sanity environment variables. If Sanity is not configured,
 
 1. Create a Sanity project at `https://www.sanity.io`.
 2. Add the project ID and dataset to `.env.local`.
-3. Run the local Sanity Studio when you want to edit content:
+3. Run the included local Sanity Studio when you want to edit content:
 
 ```bash
-npm run sanity dev
+cd studio-dmjjc-my-academy
+npm install
+npm run dev
 ```
 
-4. Use the schemas in `sanity/schemas` for:
+4. Use the schemas in `studio-dmjjc-my-academy/schemaTypes` for:
    - `announcement`
    - `event`
    - `video`
@@ -81,6 +83,7 @@ If the Sanity variables are missing, the deployed app will still render fallback
 - `lib/fallback-data.ts` - local placeholder content
 - `lib/sanity/` - Sanity client and GROQ query helpers with fallback support
 - `sanity/schemas/` - CMS schema definitions
+- `studio-dmjjc-my-academy/` - standalone Sanity Studio for project `z48r70x2`
 - `public/manifest.webmanifest` - PWA manifest
 
 ## Future Phases

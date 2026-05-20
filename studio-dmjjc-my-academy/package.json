@@ -1,0 +1,31 @@
+{
+  "name": "studio-dmjjc-my-academy",
+  "private": true,
+  "version": "1.0.0",
+  "main": "package.json",
+  "scripts": {
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@sanity/vision": "^3.68.0",
+    "sanity": "^3.68.0",
+    "styled-components": "^6.1.13"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^4.0.0",
+    "@types/react": "^18.3.12",
+    "eslint": "^8.57.1",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3"
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100,
+    "bracketSpacing": false,
+    "singleQuote": true
+  }
+}

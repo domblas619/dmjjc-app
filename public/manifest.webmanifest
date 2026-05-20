@@ -9,9 +9,9 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/dmjjc-logo-icon.png",
+      "sizes": "800x693",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]

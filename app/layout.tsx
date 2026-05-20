@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   applicationName: "Del Mar Jiu-Jitsu Club",
   manifest: "/manifest.webmanifest",
   icons: {
-    icon: "/icon.svg",
-    apple: "/icon.svg"
+    icon: "/dmjjc-logo-icon.png",
+    apple: "/dmjjc-logo-icon.png"
   },
   appleWebApp: {
     capable: true,

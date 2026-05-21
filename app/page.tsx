@@ -6,6 +6,8 @@ import { StatusCard } from "@/components/status-card";
 import { VideoCard } from "@/components/video-card";
 import { getAnnouncements, getEvents, getSiteStatus, getVideos } from "@/lib/sanity/queries";
 
+export const revalidate = 30;
+
 export default async function HomePage() {
   const [status, announcements, events, videos] = await Promise.all([
     getSiteStatus(),

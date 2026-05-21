@@ -1,4 +1,5 @@
-import { client, hasSanityConfig } from "@/lib/sanity/client";
+import { unstable_noStore as noStore } from "next/cache";
+import { client, hasSanityConfig, urgentClient } from "@/lib/sanity/client";
 import {
   fallbackAnnouncements,
   fallbackEvents,
@@ -11,13 +12,14 @@ const imageProjection = `"image": image.asset->url`;
 const thumbProjection = `"thumbnail": thumbnail.asset->url`;
 
 export async function getSiteStatus(): Promise<SiteStatus> {
+  noStore();
   if (!hasSanityConfig) return fallbackStatus;
-  const data = await client.fetch<SiteStatus | null>(
+  const data = await urgentClient.fetch<SiteStatus | null>(
     `*[_type == "siteStatus"] | order(updatedAt desc)[0]{
       title, statusType, message, updatedAt
     }`,
     {},
-    { next: { revalidate: 60 } }
+    { cache: "no-store" }
   );
   return data || fallbackStatus;
 }

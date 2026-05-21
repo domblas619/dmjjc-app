@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: "Events"
 };
 
+export const revalidate = 60;
+
 export default async function EventsPage() {
   const events = await getEvents();
 

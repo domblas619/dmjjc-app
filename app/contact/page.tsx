@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: "Contact"
 };
 
+export const revalidate = 60;
+
 export default function ContactPage() {
   const items = [
     { icon: MapPin, label: "Address", value: "2120 Jimmy Durante Blvd Ste. 121, Del Mar, CA 92014" },

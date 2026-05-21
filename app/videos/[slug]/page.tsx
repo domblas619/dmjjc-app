@@ -9,6 +9,8 @@ type VideoPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+export const revalidate = 60;
+
 export async function generateMetadata({ params }: VideoPageProps): Promise<Metadata> {
   const { slug } = await params;
   const video = await getVideoBySlug(slug);

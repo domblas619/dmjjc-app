@@ -9,7 +9,7 @@ V1 intentionally does not include member login, signup, payments, Stripe verific
 - Next.js App Router
 - TypeScript
 - Tailwind CSS
-- Sanity CMS with `next-sanity`
+- Sanity CMS with `@sanity/client`
 - PWA-friendly metadata and web manifest
 - Vercel-ready deployment
 
@@ -39,6 +39,12 @@ The app works without Sanity environment variables. If Sanity is not configured,
 cd studio-dmjjc-my-academy
 npm install
 npm run dev
+```
+
+Or from the app root:
+
+```bash
+npm run studio:dev
 ```
 
 4. Use the schemas in `studio-dmjjc-my-academy/schemaTypes` for:
@@ -82,8 +88,8 @@ If the Sanity variables are missing, the deployed app will still render fallback
 - `components/` - reusable navigation, hero, cards, badges, buttons, and sections
 - `lib/fallback-data.ts` - local placeholder content
 - `lib/sanity/` - Sanity client and GROQ query helpers with fallback support
-- `sanity/schemas/` - CMS schema definitions
 - `studio-dmjjc-my-academy/` - standalone Sanity Studio for project `z48r70x2`
+- `studio-dmjjc-my-academy/schemaTypes/` - CMS schema definitions
 - `public/manifest.webmanifest` - PWA manifest
 
 ## Future Phases

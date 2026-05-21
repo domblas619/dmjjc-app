@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { EventCard } from "@/components/event-card";
+import { EventsBoard } from "@/components/events-board";
 import { PageSection } from "@/components/page-section";
+import { getUpcomingEvents } from "@/lib/content-filters";
 import { getEvents } from "@/lib/sanity/queries";
 
 export const metadata: Metadata = {
@@ -11,6 +12,7 @@ export const revalidate = 60;
 
 export default async function EventsPage() {
   const events = await getEvents();
+  const upcomingEvents = getUpcomingEvents(events);
 
   return (
     <PageSection
@@ -19,9 +21,7 @@ export default async function EventsPage() {
       description="Upcoming academy dates, holidays, special schedules, tournaments, seminars, and in-house community events."
       tone="dark"
     >
-      <div className="grid gap-4 lg:grid-cols-2">
-        {events.map((event) => <EventCard key={event.slug} event={event} />)}
-      </div>
+      <EventsBoard events={upcomingEvents} />
     </PageSection>
   );
 }

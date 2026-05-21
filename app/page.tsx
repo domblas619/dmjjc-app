@@ -2,8 +2,10 @@ import { AnnouncementCard } from "@/components/announcement-card";
 import { EventCard } from "@/components/event-card";
 import { Hero } from "@/components/hero";
 import { PageSection } from "@/components/page-section";
+import { PushNotificationCard } from "@/components/push-notification-card";
 import { StatusCard } from "@/components/status-card";
 import { VideoCard } from "@/components/video-card";
+import { getUpcomingEvents } from "@/lib/content-filters";
 import { getAnnouncements, getEvents, getSiteStatus, getVideos } from "@/lib/sanity/queries";
 
 export const revalidate = 30;
@@ -15,13 +17,17 @@ export default async function HomePage() {
     getEvents(),
     getVideos()
   ]);
+  const upcomingEvents = getUpcomingEvents(events);
   const featuredVideo = videos.find((video) => video.isFeatured) || videos[0];
 
   return (
     <>
       <Hero />
       <PageSection tone="warm">
-        <StatusCard status={status} />
+        <div className="grid gap-4 lg:grid-cols-[1.15fr_.85fr]">
+          <StatusCard status={status} />
+          <PushNotificationCard />
+        </div>
       </PageSection>
       <PageSection
         eyebrow="Schedule / Events"
@@ -30,7 +36,7 @@ export default async function HomePage() {
         tone="dark"
       >
         <div className="grid gap-4 lg:grid-cols-3">
-          {events.slice(0, 3).map((event) => <EventCard key={event.slug} event={event} />)}
+          {upcomingEvents.slice(0, 3).map((event) => <EventCard key={event.slug} event={event} />)}
         </div>
       </PageSection>
       <PageSection

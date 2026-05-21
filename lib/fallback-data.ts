@@ -14,7 +14,8 @@ export const fallbackAnnouncements: Announcement[] = [
     publishedAt: "2026-05-20",
     category: "General",
     body: "This hub will help our members and families stay updated on academy news, important dates, and training resources.",
-    isFeatured: true
+    isFeatured: true,
+    isPinned: true
   },
   {
     title: "Kids No-Gi Reminder",
@@ -40,7 +41,9 @@ export const fallbackEvents: AcademyEvent[] = [
     location: "Del Mar Jiu-Jitsu Club",
     eventType: "Holiday",
     description: "The academy will be closed for the holiday. Regular classes resume the following day.",
-    isFeatured: true
+    isFeatured: true,
+    statusBadge: "Check Before Class",
+    audience: "All Students"
   },
   {
     title: "In-House Training Day",
@@ -49,7 +52,8 @@ export const fallbackEvents: AcademyEvent[] = [
     time: "10:00 AM",
     location: "Del Mar Jiu-Jitsu Club",
     eventType: "In-House Event",
-    description: "A community training day for students and families. More details coming soon."
+    description: "A community training day for students and families. More details coming soon.",
+    audience: "Students and Families"
   },
   {
     title: "Special Schedule",
@@ -58,7 +62,9 @@ export const fallbackEvents: AcademyEvent[] = [
     time: "Morning classes only",
     location: "Del Mar Jiu-Jitsu Club",
     eventType: "Special Schedule",
-    description: "Modified class schedule for the day. Please check details before heading to the academy."
+    description: "Modified class schedule for the day. Please check details before heading to the academy.",
+    statusBadge: "Check Before Class",
+    audience: "All Students"
   }
 ];
 

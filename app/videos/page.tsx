@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Badge } from "@/components/badge";
 import { PageSection } from "@/components/page-section";
-import { VideoCard } from "@/components/video-card";
+import { VideoLibrary } from "@/components/video-library";
 import { getVideos } from "@/lib/sanity/queries";
 
 export const metadata: Metadata = {
@@ -26,9 +26,7 @@ export default async function VideosPage() {
           V1 video access is public while we test the Community Hub. Member-only access will be added in a future version.
         </p>
       </div>
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {videos.map((video) => <VideoCard key={video.slug} video={video} />)}
-      </div>
+      <VideoLibrary videos={videos} />
     </PageSection>
   );
 }

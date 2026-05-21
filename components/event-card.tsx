@@ -1,4 +1,5 @@
-import { CalendarDays, MapPin } from "lucide-react";
+import Link from "next/link";
+import { CalendarDays, ExternalLink, MapPin, Users } from "lucide-react";
 import { Badge } from "@/components/badge";
 import { formatDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -22,7 +23,7 @@ export function EventCard({ event }: { event: AcademyEvent }) {
       <div>
         <div className="flex flex-wrap items-center gap-2">
           <Badge tone={urgent ? "amber" : "blue"}>{event.eventType}</Badge>
-          {urgent && <Badge tone="red">Check before class</Badge>}
+          {(event.statusBadge || urgent) && <Badge tone="red">{event.statusBadge || "Check before class"}</Badge>}
         </div>
         <h3 className="mt-4 font-display text-2xl font-black uppercase leading-[.95] text-academy-foreground sm:text-3xl">{event.title}</h3>
         <div className="mt-4 space-y-2 text-sm font-black uppercase tracking-[.12em] text-academy-muted">
@@ -36,8 +37,23 @@ export function EventCard({ event }: { event: AcademyEvent }) {
             <MapPin size={17} className="text-academy-blue" aria-hidden="true" />
             {event.location}
           </p>
+          {event.audience && (
+            <p className="flex items-center gap-2">
+              <Users size={17} className="text-academy-blue" aria-hidden="true" />
+              {event.audience}
+            </p>
+          )}
         </div>
         <p className="mt-4 text-base font-medium leading-7 text-academy-mist">{event.description}</p>
+        {event.registrationUrl && (
+          <Link
+            href={event.registrationUrl}
+            className="mt-5 inline-flex items-center gap-2 border-b border-academy-blue pb-1 text-sm font-black uppercase tracking-[.14em] text-academy-blue transition hover:text-academy-foreground"
+          >
+            Details / RSVP
+            <ExternalLink size={15} aria-hidden="true" />
+          </Link>
+        )}
       </div>
     </article>
   );

@@ -1,6 +1,6 @@
 # Del Mar Jiu-Jitsu Club Community Hub
 
-A mobile-first public Community Hub for Del Mar Jiu-Jitsu Club. V1 shows academy status, announcements, closures, upcoming events, and a public video library with Sanity CMS support and local fallback content.
+A mobile-first public Community Hub for Del Mar Jiu-Jitsu Club. V1 shows academy status, pinned and expiring announcements, closures, upcoming events, quick contact actions, opt-in push alerts, and a public searchable video library with Sanity CMS support and local fallback content.
 
 V1 intentionally does not include member login, signup, payments, Stripe verification, protected routes, Supabase, user accounts, or admin approval.
 
@@ -62,16 +62,83 @@ NEXT_PUBLIC_SANITY_DATASET=production
 NEXT_PUBLIC_SANITY_API_VERSION=2026-05-20
 ```
 
+## Push Notifications
+
+The app includes public, opt-in web push alerts for urgent academy communication such as closures, holiday closures, modified schedules, and pinned urgent updates. Push notifications do not require member accounts.
+
+Push requires:
+
+- VAPID keys for browser push authentication
+- Upstash Redis / Vercel Redis integration for storing device subscriptions
+- A secret for protected notification sending
+
+Generate VAPID keys:
+
+```bash
+npm run push:keys
+```
+
+Add these environment variables locally and in Vercel:
+
+```bash
+NEXT_PUBLIC_VAPID_PUBLIC_KEY=your_public_vapid_key
+VAPID_PRIVATE_KEY=your_private_vapid_key
+VAPID_SUBJECT=mailto:info@delmarjiujitsuclub.com
+PUSH_WEBHOOK_SECRET=use_a_long_random_secret
+UPSTASH_REDIS_REST_URL=your_upstash_redis_rest_url
+UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_rest_token
+```
+
+The homepage shows an urgent alerts opt-in card. If push keys or Redis are missing, the app still runs and the card explains setup is needed.
+
+To send a notification manually:
+
+```bash
+curl -X POST https://your-vercel-domain.com/api/push/send \
+  -H "Authorization: Bearer $PUSH_WEBHOOK_SECRET" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Schedule Update","body":"Del Mar Jiu-Jitsu Club has a modified schedule today.","url":"/events","tag":"schedule-update"}'
+```
+
+Sanity can trigger push alerts with a webhook:
+
+```text
+POST https://your-vercel-domain.com/api/sanity/push
+Authorization: Bearer your_push_webhook_secret
+```
+
+Use a Sanity webhook projection like:
+
+```groq
+{
+  "_type": _type,
+  "title": title,
+  "body": body,
+  "message": message,
+  "description": description,
+  "category": category,
+  "eventType": eventType,
+  "statusType": statusType,
+  "isPinned": isPinned
+}
+```
+
+The webhook route only sends notifications for urgent content: closed/modified/event-day status updates, closure/holiday/special-schedule events, pinned announcements, and closure announcements.
+
+On iPhone, web push requires iOS/iPadOS 16.4 or newer and the app must be added to the Home Screen.
+
 ## Content Editing
 
 In Sanity Studio, editors can update:
 
-- Announcements: title, slug, published date, category, body, image, featured flag
-- Events: title, slug, start/end date, time, location, event type, description, image, featured flag
+- Announcements: title, slug, published date, category, body, image, featured flag, pinned notice flag, optional expiration date
+- Events: title, slug, start/end date, time, location, event type, description, optional audience, optional status badge, optional registration/details URL, image, featured flag
 - Videos: title, slug, description, category, level, thumbnail, embedded video URL, featured flag, published date
 - Site status: title, status type, message, updated date
 
 For video embeds, use an embeddable URL such as a YouTube `/embed/` URL.
+
+Pinned announcements appear first. Announcements with an expiration date disappear from the live app after that date without a redeploy.
 
 ## Deploy to Vercel
 
@@ -88,6 +155,8 @@ If the Sanity variables are missing, the deployed app will still render fallback
 - `components/` - reusable navigation, hero, cards, badges, buttons, and sections
 - `lib/fallback-data.ts` - local placeholder content
 - `lib/sanity/` - Sanity client and GROQ query helpers with fallback support
+- `lib/push/` - web push storage and sending helpers
+- `public/sw.js` - service worker for push notification display and notification clicks
 - `studio-dmjjc-my-academy/` - standalone Sanity Studio for project `z48r70x2`
 - `studio-dmjjc-my-academy/schemaTypes/` - CMS schema definitions
 - `public/manifest.webmanifest` - PWA manifest

@@ -27,8 +27,8 @@ export async function getSiteStatus(): Promise<SiteStatus> {
 export async function getAnnouncements(): Promise<Announcement[]> {
   if (!hasSanityConfig) return fallbackAnnouncements;
   const data = await client.fetch<Announcement[]>(
-    `*[_type == "announcement"] | order(publishedAt desc){
-      title, "slug": slug.current, publishedAt, category, body, isFeatured, ${imageProjection}
+    `*[_type == "announcement" && (!defined(expiresAt) || expiresAt > now())] | order(coalesce(isPinned, false) desc, publishedAt desc){
+      title, "slug": slug.current, publishedAt, category, body, isFeatured, isPinned, expiresAt, ${imageProjection}
     }`,
     {},
     { next: { revalidate: 60 } }
@@ -40,7 +40,7 @@ export async function getEvents(): Promise<AcademyEvent[]> {
   if (!hasSanityConfig) return fallbackEvents;
   const data = await client.fetch<AcademyEvent[]>(
     `*[_type == "event"] | order(startDate asc){
-      title, "slug": slug.current, startDate, endDate, time, location, eventType, description, isFeatured, ${imageProjection}
+      title, "slug": slug.current, startDate, endDate, time, location, eventType, description, isFeatured, statusBadge, registrationUrl, audience, ${imageProjection}
     }`,
     {},
     { next: { revalidate: 60 } }

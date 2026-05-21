@@ -7,6 +7,7 @@ export function AnnouncementCard({ announcement }: { announcement: Announcement 
     <article className="group border border-academy-line/10 bg-academy-panel p-5 transition hover:border-academy-blue/60">
       <div className="flex flex-wrap items-center gap-3">
         <Badge tone={announcement.category === "Closure" ? "red" : "blue"}>{announcement.category}</Badge>
+        {announcement.isPinned && <Badge tone="amber">Pinned</Badge>}
         <span className="text-xs font-black uppercase tracking-[.14em] text-academy-muted/80">{formatDate(announcement.publishedAt)}</span>
       </div>
       <div className="mt-5 grid gap-3 md:grid-cols-[.9fr_1.1fr]">

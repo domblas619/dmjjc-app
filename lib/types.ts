@@ -39,6 +39,8 @@ export type Announcement = {
   body: string;
   image?: string;
   isFeatured?: boolean;
+  isPinned?: boolean;
+  expiresAt?: string;
 };
 
 export type AcademyEvent = {
@@ -52,6 +54,9 @@ export type AcademyEvent = {
   description: string;
   image?: string;
   isFeatured?: boolean;
+  statusBadge?: string;
+  registrationUrl?: string;
+  audience?: string;
 };
 
 export type Video = {

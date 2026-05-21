@@ -32,8 +32,28 @@ export const announcement = defineType({
     defineField({name: 'body', title: 'Body', type: 'text', rows: 4, validation: (Rule) => Rule.required()}),
     defineField({name: 'image', title: 'Image', type: 'image', options: {hotspot: true}}),
     defineField({name: 'isFeatured', title: 'Featured', type: 'boolean', initialValue: false}),
+    defineField({
+      name: 'isPinned',
+      title: 'Pinned Notice',
+      type: 'boolean',
+      description: 'Pinned announcements appear first in the app.',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'expiresAt',
+      title: 'Expires At',
+      type: 'datetime',
+      description: 'Optional. After this date, the app will stop showing the announcement.',
+    }),
   ],
   preview: {
-    select: {title: 'title', subtitle: 'category', media: 'image'},
+    select: {title: 'title', category: 'category', isPinned: 'isPinned', media: 'image'},
+    prepare({title, category, isPinned, media}) {
+      return {
+        title,
+        subtitle: `${isPinned ? 'Pinned · ' : ''}${category}`,
+        media,
+      }
+    },
   },
 })

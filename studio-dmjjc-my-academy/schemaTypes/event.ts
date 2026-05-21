@@ -40,10 +40,35 @@ export const event = defineType({
       rows: 4,
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: 'statusBadge',
+      title: 'Status Badge',
+      type: 'string',
+      description: 'Optional short callout such as "Check Before Class", "RSVP Needed", or "Open Mat".',
+    }),
+    defineField({
+      name: 'audience',
+      title: 'Audience',
+      type: 'string',
+      description: 'Optional. Example: All Students, Kids Program, Adults, Parents.',
+    }),
+    defineField({
+      name: 'registrationUrl',
+      title: 'Registration / Details URL',
+      type: 'url',
+      description: 'Optional external link for RSVP, registration, or extra event details.',
+    }),
     defineField({name: 'image', title: 'Image', type: 'image', options: {hotspot: true}}),
     defineField({name: 'isFeatured', title: 'Featured', type: 'boolean', initialValue: false}),
   ],
   preview: {
-    select: {title: 'title', subtitle: 'eventType', media: 'image'},
+    select: {title: 'title', eventType: 'eventType', startDate: 'startDate', media: 'image'},
+    prepare({title, eventType, startDate, media}) {
+      return {
+        title,
+        subtitle: `${eventType}${startDate ? ` · ${startDate}` : ''}`,
+        media,
+      }
+    },
   },
 })

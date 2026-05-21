@@ -11,6 +11,7 @@ export function EventCard({ event }: { event: AcademyEvent }) {
   const date = new Date(`${event.startDate}T12:00:00`);
   const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(date);
   const day = new Intl.DateTimeFormat("en-US", { day: "2-digit" }).format(date);
+  const showEndDate = Boolean(event.endDate && event.endDate !== event.startDate);
 
   return (
     <article className={cn("grid gap-5 border p-5 transition hover:border-academy-blue/70 md:grid-cols-[6.5rem_1fr]", urgent ? "border-academy-blue bg-academy-blue/[.07]" : "border-academy-line/10 bg-academy-panel")}>
@@ -28,7 +29,7 @@ export function EventCard({ event }: { event: AcademyEvent }) {
           <p className="flex items-center gap-2">
             <CalendarDays size={17} className="text-academy-blue" aria-hidden="true" />
             {formatDate(event.startDate)}
-            {event.endDate ? ` - ${formatDate(event.endDate)}` : ""}
+            {showEndDate ? ` - ${formatDate(event.endDate as string)}` : ""}
             {event.time ? `, ${event.time}` : ""}
           </p>
           <p className="flex items-center gap-2">

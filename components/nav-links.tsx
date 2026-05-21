@@ -22,9 +22,13 @@ export function NavLinks({ mobile = false }: { mobile?: boolean }) {
         key={href}
         href={href}
         className={cn(
-          "inline-flex items-center gap-2 border border-transparent font-black uppercase tracking-[.12em] transition",
-          mobile ? "flex-col gap-1 px-2 py-2 text-[11px]" : "px-4 py-2 text-sm",
-          active ? "border-academy-blue bg-academy-blue text-academy-black" : "text-academy-mist hover:border-academy-line/15 hover:text-academy-foreground"
+          "relative inline-flex items-center gap-2 font-black uppercase tracking-[.12em] transition after:absolute after:bg-academy-blue after:transition",
+          mobile
+            ? "flex-col gap-1 px-2 py-2 text-[11px] after:inset-x-5 after:bottom-0 after:h-0.5"
+            : "px-2 py-3 text-sm after:inset-x-2 after:bottom-1 after:h-0.5",
+          active
+            ? "text-academy-foreground after:opacity-100"
+            : "text-academy-mist after:opacity-0 hover:text-academy-foreground hover:after:opacity-60"
         )}
       >
         <Icon size={mobile ? 20 : 17} aria-hidden="true" />

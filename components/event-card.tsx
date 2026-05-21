@@ -13,8 +13,8 @@ export function EventCard({ event }: { event: AcademyEvent }) {
   const day = new Intl.DateTimeFormat("en-US", { day: "2-digit" }).format(date);
 
   return (
-    <article className={cn("grid gap-5 rounded-[1.5rem] border p-5 transition hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,.16)] md:grid-cols-[7rem_1fr]", urgent ? "border-academy-blue bg-academy-blue/[.08]" : "border-academy-line/10 bg-academy-panel")}>
-      <div className="flex size-24 shrink-0 flex-col items-center justify-center rounded-2xl border border-academy-line/10 bg-academy-card/[.06] text-center">
+    <article className={cn("grid gap-5 border p-5 transition hover:border-academy-blue/70 md:grid-cols-[6.5rem_1fr]", urgent ? "border-academy-blue bg-academy-blue/[.07]" : "border-academy-line/10 bg-academy-panel")}>
+      <div className="flex size-24 shrink-0 flex-col items-center justify-center border border-academy-line/10 bg-academy-card/[.045] text-center">
         <span className="text-xs font-black uppercase tracking-[.18em] text-academy-blue">{month}</span>
         <span className="font-display text-5xl font-black leading-none text-academy-foreground">{day}</span>
       </div>

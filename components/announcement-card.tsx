@@ -4,7 +4,7 @@ import type { Announcement } from "@/lib/types";
 
 export function AnnouncementCard({ announcement }: { announcement: Announcement }) {
   return (
-    <article className="group rounded-[1.5rem] border border-academy-line/10 bg-academy-panel p-5 transition hover:-translate-y-1 hover:border-academy-blue/60 hover:shadow-[0_18px_50px_rgba(0,0,0,.14)]">
+    <article className="group border border-academy-line/10 bg-academy-panel p-5 transition hover:border-academy-blue/60">
       <div className="flex flex-wrap items-center gap-3">
         <Badge tone={announcement.category === "Closure" ? "red" : "blue"}>{announcement.category}</Badge>
         <span className="text-xs font-black uppercase tracking-[.14em] text-academy-muted/80">{formatDate(announcement.publishedAt)}</span>

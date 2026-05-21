@@ -13,10 +13,10 @@ export function CtaButton({ href, children, variant = "primary" }: CtaButtonProp
     <Link
       href={href}
       className={cn(
-        "inline-flex min-h-12 items-center justify-center gap-2 px-5 text-sm font-black uppercase tracking-[.12em] transition active:scale-[.98]",
+        "inline-flex min-h-12 items-center justify-center gap-2 border px-5 text-sm font-black uppercase tracking-[.12em] transition active:scale-[.98]",
         variant === "primary"
-          ? "bg-academy-blue text-[#05080c] hover:bg-sky-300"
-          : "border border-academy-line/20 bg-transparent text-academy-foreground hover:border-academy-blue hover:text-academy-blue"
+          ? "border-academy-blue bg-academy-blue text-[#05080c] hover:bg-transparent hover:text-academy-blue"
+          : "border-academy-line/20 bg-transparent text-academy-foreground hover:border-academy-blue hover:text-academy-blue"
       )}
     >
       {children}

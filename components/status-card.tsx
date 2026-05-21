@@ -13,9 +13,9 @@ const statusTone = {
 
 export function StatusCard({ status }: { status: SiteStatus }) {
   return (
-    <article className="overflow-hidden rounded-[1.75rem] border border-academy-line/10 bg-academy-panel shadow-[0_22px_70px_rgba(0,0,0,.18)]">
-      <div className="h-1.5 bg-academy-blue" />
-      <div className="p-6 md:p-8">
+    <article className="border border-academy-line/10 bg-academy-panel">
+      <div className="h-1 bg-academy-blue" />
+      <div className="p-5 md:p-7">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-black uppercase tracking-[.24em] text-academy-blue">Today's Status</p>

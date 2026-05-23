@@ -21,7 +21,7 @@ export async function getSiteStatus(): Promise<SiteStatus> {
   noStore();
   if (!hasSanityConfig) return fallbackStatus;
   const data = await urgentClient.fetch<SiteStatus | null>(
-    `*[_type == "siteStatus"] | order(updatedAt desc)[0]{
+    `*[_type == "siteStatus" && updatedAt <= now()] | order(updatedAt desc)[0]{
       title, statusType, message, updatedAt
     }`,
     {},

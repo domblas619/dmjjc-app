@@ -5,15 +5,18 @@ import { Hero } from "@/components/hero";
 import { PageSection } from "@/components/page-section";
 import { PushNotificationCard } from "@/components/push-notification-card";
 import { StatusCard } from "@/components/status-card";
+import { TodayScheduleSection } from "@/components/today-schedule";
 import { VideoCard } from "@/components/video-card";
 import { getUpcomingEvents } from "@/lib/content-filters";
+import { getTodaySchedule } from "@/lib/schedule";
 import { getAnnouncements, getEvents, getSiteStatus, getVideos } from "@/lib/sanity/queries";
 
 export const revalidate = 30;
 
 export default async function HomePage() {
-  const [status, announcements, events, videos] = await Promise.all([
+  const [status, todaySchedule, announcements, events, videos] = await Promise.all([
     getSiteStatus(),
+    getTodaySchedule(),
     getAnnouncements(),
     getEvents(),
     getVideos()
@@ -29,6 +32,14 @@ export default async function HomePage() {
           <StatusCard status={status} />
           <PushNotificationCard />
         </div>
+      </PageSection>
+      <PageSection
+        eyebrow="Today / Classes"
+        title="Today's Schedule"
+        description={`${todaySchedule.dateLabel}. Pulled from the live Google Calendars on the Del Mar Jiu-Jitsu Club schedule.`}
+        tone="dark"
+      >
+        <TodayScheduleSection schedule={todaySchedule} />
       </PageSection>
       <PageSection
         eyebrow="Schedule / Events"

@@ -39,7 +39,7 @@ export async function getAnnouncements(): Promise<Announcement[]> {
     {},
     { next: { revalidate: 60, tags: [sanityCacheTags.announcements] } }
   );
-  return data?.length ? data : fallbackAnnouncements;
+  return data || fallbackAnnouncements;
 }
 
 export async function getEvents(): Promise<AcademyEvent[]> {
@@ -51,7 +51,7 @@ export async function getEvents(): Promise<AcademyEvent[]> {
     {},
     { next: { revalidate: 60, tags: [sanityCacheTags.events] } }
   );
-  return data?.length ? data : fallbackEvents;
+  return data || fallbackEvents;
 }
 
 export async function getVideos(): Promise<Video[]> {
@@ -63,7 +63,7 @@ export async function getVideos(): Promise<Video[]> {
     {},
     { next: { revalidate: 60, tags: [sanityCacheTags.videos] } }
   );
-  return data?.length ? data : fallbackVideos;
+  return data || fallbackVideos;
 }
 
 export async function getVideoBySlug(slug: string): Promise<Video | undefined> {

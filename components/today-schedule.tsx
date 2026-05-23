@@ -43,7 +43,6 @@ export function TodayScheduleSection({ schedule }: { schedule: TodaySchedule }) 
               <div>
                 <p className="text-xs font-black uppercase tracking-[.22em] text-academy-blue">{categoryLabels[item.calendar]}</p>
                 <h3 className="mt-2 font-display text-2xl font-black uppercase leading-none text-academy-foreground md:text-3xl">{item.title}</h3>
-                {item.location && <p className="mt-2 text-sm font-medium leading-6 text-academy-mist">{item.location}</p>}
               </div>
               <p className="text-sm font-black uppercase tracking-[.14em] text-academy-muted md:text-right">{item.timeLabel}</p>
             </article>

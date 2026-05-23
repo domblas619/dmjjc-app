@@ -8,8 +8,7 @@ const statusTone = {
   Closed: "red",
   "Modified Schedule": "amber",
   "Event Day": "blue",
-  "Holiday Closure": "red",
-  "Not Posted": "neutral"
+  "Holiday Closure": "red"
 } as const;
 
 export function StatusCard({ status }: { status: SiteStatus }) {
@@ -25,7 +24,7 @@ export function StatusCard({ status }: { status: SiteStatus }) {
         <Badge tone={statusTone[status.statusType]}>{status.statusType}</Badge>
       </div>
       <p className="mt-4 text-lg font-medium leading-8 text-academy-mist">{status.message}</p>
-      {status.statusType !== "Not Posted" && (
+      {!status.isDefault && (
         <p className="mt-6 inline-flex border-t border-academy-line/10 pt-4 items-center gap-2 text-sm font-bold text-academy-muted">
           <Clock3 size={16} aria-hidden="true" />
           Updated {formatStatusDate(status.updatedAt)}

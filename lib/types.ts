@@ -29,8 +29,7 @@ export type SiteStatusType =
   | "Closed"
   | "Modified Schedule"
   | "Event Day"
-  | "Holiday Closure"
-  | "Not Posted";
+  | "Holiday Closure";
 
 export type Announcement = {
   title: string;
@@ -83,4 +82,5 @@ export type SiteStatus = {
   statusType: SiteStatusType;
   message: string;
   updatedAt: string;
+  isDefault?: boolean;
 };

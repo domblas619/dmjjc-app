@@ -10,6 +10,7 @@ import type { AcademyEvent, Announcement, SiteStatus, Video } from "@/lib/types"
 
 const imageProjection = `"image": image.asset->url`;
 const thumbProjection = `"thumbnail": thumbnail.asset->url`;
+const exceptionStatusTypes = ["Closed", "Modified Schedule", "Event Day", "Holiday Closure"];
 
 export const sanityCacheTags = {
   announcements: "sanity-announcements",
@@ -21,10 +22,10 @@ export async function getSiteStatus(): Promise<SiteStatus> {
   noStore();
   if (!hasSanityConfig) return fallbackStatus;
   const data = await urgentClient.fetch<SiteStatus | null>(
-    `*[_type == "siteStatus" && updatedAt <= now()] | order(updatedAt desc)[0]{
+    `*[_type == "siteStatus" && updatedAt <= now() && statusType in $exceptionStatusTypes] | order(updatedAt desc)[0]{
       title, statusType, message, updatedAt
     }`,
-    {},
+    { exceptionStatusTypes },
     { cache: "no-store" }
   );
   return data || fallbackStatus;

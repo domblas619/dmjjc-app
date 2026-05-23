@@ -11,7 +11,7 @@ export const siteStatus = defineType({
       title: 'Status Type',
       type: 'string',
       options: {
-        list: ['Open', 'Closed', 'Modified Schedule', 'Event Day', 'Holiday Closure'],
+        list: ['Closed', 'Modified Schedule', 'Event Day', 'Holiday Closure'],
         layout: 'radio',
       },
       validation: (Rule) => Rule.required(),

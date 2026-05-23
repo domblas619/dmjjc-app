@@ -1,10 +1,11 @@
 import type { AcademyEvent, Announcement, SiteStatus, Video } from "@/lib/types";
 
 export const fallbackStatus: SiteStatus = {
-  title: "Status Not Posted",
-  statusType: "Not Posted",
-  message: "No current academy status has been posted yet. For urgent schedule questions, contact the academy directly.",
-  updatedAt: new Date(0).toISOString()
+  title: "Open - Regular Schedule",
+  statusType: "Open",
+  message: "Regular classes are running today. Check today’s schedule and we’ll see you on the mat.",
+  updatedAt: new Date().toISOString(),
+  isDefault: true
 };
 
 export const fallbackAnnouncements: Announcement[] = [];

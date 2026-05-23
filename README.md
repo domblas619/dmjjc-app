@@ -52,7 +52,7 @@ npm run studio:dev
    - `event`
    - `video`
    - `siteStatus`
-5. Create at least one `siteStatus` document and publish announcements, events, and videos.
+5. Publish announcements, events, and videos as needed. The app defaults Today’s Status to “Open - Regular Schedule”; create `siteStatus` documents only for exceptions such as closures, holidays, event days, or modified schedules.
 
 Optional `.env.local` overrides:
 
@@ -179,6 +179,8 @@ In Sanity Studio, editors can update:
 For video embeds, use an embeddable URL such as a YouTube `/embed/` URL.
 
 Pinned announcements appear first. Announcements with an expiration date disappear from the live app after that date without a redeploy.
+
+Today’s Status shows “Open - Regular Schedule” by default. Publish a `siteStatus` document only when the academy has an exception, such as a closure, holiday closure, event day, or modified schedule.
 
 ## Deploy to Vercel
 

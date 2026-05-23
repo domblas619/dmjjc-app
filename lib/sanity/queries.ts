@@ -11,6 +11,12 @@ import type { AcademyEvent, Announcement, SiteStatus, Video } from "@/lib/types"
 const imageProjection = `"image": image.asset->url`;
 const thumbProjection = `"thumbnail": thumbnail.asset->url`;
 
+export const sanityCacheTags = {
+  announcements: "sanity-announcements",
+  events: "sanity-events",
+  videos: "sanity-videos"
+} as const;
+
 export async function getSiteStatus(): Promise<SiteStatus> {
   noStore();
   if (!hasSanityConfig) return fallbackStatus;
@@ -31,7 +37,7 @@ export async function getAnnouncements(): Promise<Announcement[]> {
       title, "slug": slug.current, publishedAt, category, body, isFeatured, isPinned, expiresAt, ${imageProjection}
     }`,
     {},
-    { next: { revalidate: 60 } }
+    { next: { revalidate: 60, tags: [sanityCacheTags.announcements] } }
   );
   return data?.length ? data : fallbackAnnouncements;
 }
@@ -43,7 +49,7 @@ export async function getEvents(): Promise<AcademyEvent[]> {
       title, "slug": slug.current, startDate, endDate, time, location, eventType, description, isFeatured, statusBadge, registrationUrl, audience, ${imageProjection}
     }`,
     {},
-    { next: { revalidate: 60 } }
+    { next: { revalidate: 60, tags: [sanityCacheTags.events] } }
   );
   return data?.length ? data : fallbackEvents;
 }
@@ -55,7 +61,7 @@ export async function getVideos(): Promise<Video[]> {
       title, "slug": slug.current, description, category, level, videoUrl, isFeatured, publishedAt, ${thumbProjection}
     }`,
     {},
-    { next: { revalidate: 60 } }
+    { next: { revalidate: 60, tags: [sanityCacheTags.videos] } }
   );
   return data?.length ? data : fallbackVideos;
 }

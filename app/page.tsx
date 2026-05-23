@@ -1,4 +1,5 @@
 import { AnnouncementCard } from "@/components/announcement-card";
+import { EmptyState } from "@/components/empty-state";
 import { EventCard } from "@/components/event-card";
 import { Hero } from "@/components/hero";
 import { PageSection } from "@/components/page-section";
@@ -35,9 +36,16 @@ export default async function HomePage() {
         description="Upcoming closures, events, and schedule changes."
         tone="dark"
       >
-        <div className="grid gap-4 lg:grid-cols-3">
-          {upcomingEvents.slice(0, 3).map((event) => <EventCard key={event.slug} event={event} />)}
-        </div>
+        {upcomingEvents.length > 0 ? (
+          <div className="grid gap-4 lg:grid-cols-3">
+            {upcomingEvents.slice(0, 3).map((event) => <EventCard key={event.slug} event={event} />)}
+          </div>
+        ) : (
+          <EmptyState
+            title="No important dates posted"
+            message="Upcoming events, closures, and schedule changes will appear here once they are published by the academy."
+          />
+        )}
       </PageSection>
       <PageSection
         eyebrow="Member Notices"
@@ -45,9 +53,16 @@ export default async function HomePage() {
         description="The latest from Del Mar Jiu-Jitsu Club."
         tone="warm"
       >
-        <div className="grid gap-4 md:grid-cols-3">
-          {announcements.slice(0, 3).map((announcement) => <AnnouncementCard key={announcement.slug} announcement={announcement} />)}
-        </div>
+        {announcements.length > 0 ? (
+          <div className="grid gap-4 md:grid-cols-3">
+            {announcements.slice(0, 3).map((announcement) => <AnnouncementCard key={announcement.slug} announcement={announcement} />)}
+          </div>
+        ) : (
+          <EmptyState
+            title="No academy notes posted"
+            message="Announcements and member notices will appear here once they are published by the academy."
+          />
+        )}
       </PageSection>
       {featuredVideo && (
         <PageSection

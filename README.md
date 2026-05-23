@@ -27,12 +27,12 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-The app works without Sanity environment variables. If Sanity is not configured, it shows clear empty states instead of public-facing demo content.
+The app includes the Del Mar Jiu-Jitsu Club Sanity project as its default CMS source, so local and Vercel builds stay connected even if optional Sanity environment variables are missing.
 
 ## Sanity Setup
 
-1. Create a Sanity project at `https://www.sanity.io`.
-2. Add the project ID and dataset to `.env.local`.
+1. Use the included Sanity project `z48r70x2` with dataset `production`.
+2. Optional: add the project ID and dataset to `.env.local` if you need to override the defaults.
 3. Run the included local Sanity Studio when you want to edit content:
 
 ```bash
@@ -54,10 +54,10 @@ npm run studio:dev
    - `siteStatus`
 5. Create at least one `siteStatus` document and publish announcements, events, and videos.
 
-Example `.env.local`:
+Optional `.env.local` overrides:
 
 ```bash
-NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_PROJECT_ID=z48r70x2
 NEXT_PUBLIC_SANITY_DATASET=production
 NEXT_PUBLIC_SANITY_API_VERSION=2026-05-20
 SANITY_REVALIDATE_SECRET=use_a_long_random_secret

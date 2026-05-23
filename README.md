@@ -27,7 +27,7 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-The app works without Sanity environment variables. If Sanity is not configured, it uses the placeholder status, announcements, events, and videos in `lib/fallback-data.ts`.
+The app works without Sanity environment variables. If Sanity is not configured, it shows clear empty states instead of public-facing demo content.
 
 ## Sanity Setup
 
@@ -188,13 +188,13 @@ Pinned announcements appear first. Announcements with an expiration date disappe
 4. Deploy.
 5. Add the Sanity webhook above so Studio publishes refresh the live pages immediately.
 
-If the Sanity variables are missing, the deployed app will still render fallback content.
+If the Sanity variables are missing, the deployed app will still render empty states instead of public-facing demo content.
 
 ## Structure
 
 - `app/` - Next.js routes and metadata
 - `components/` - reusable navigation, hero, cards, badges, buttons, and sections
-- `lib/fallback-data.ts` - local placeholder content
+- `lib/fallback-data.ts` - non-demo empty fallback data for missing CMS configuration
 - `lib/sanity/` - Sanity client and GROQ query helpers with fallback support
 - `lib/push/` - web push storage and sending helpers
 - `public/sw.js` - service worker for push notification display and notification clicks

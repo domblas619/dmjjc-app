@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`${inter.variable} ${outfit.variable} min-h-screen font-sans antialiased`}>
         <Header />
-        <main className="pb-24 pt-20 md:pb-10">{children}</main>
+        <main className="pb-[calc(var(--bottom-nav-height)+env(safe-area-inset-bottom))] pt-[calc(var(--header-height)+env(safe-area-inset-top))] md:pb-10">{children}</main>
         <BottomNav />
       </body>
     </html>

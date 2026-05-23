@@ -26,6 +26,8 @@
   --page-glow: rgba(0, 174, 239, .18);
   --media-start: #1a2733;
   --media-end: #0d141c;
+  --header-height: 5rem;
+  --bottom-nav-height: 4.5rem;
 }
 
 * {

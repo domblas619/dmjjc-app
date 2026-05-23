@@ -4,7 +4,7 @@ import { NavLinks } from "@/components/nav-links";
 
 export function Header() {
   return (
-    <header className="fixed inset-x-0 top-0 z-40 border-b border-academy-line/10 bg-academy-black/85 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-academy-line/10 bg-academy-black/85 pt-[env(safe-area-inset-top)] backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 md:px-8">
         <Link href="/" className="flex items-center gap-3">
           <span className="relative block size-12 overflow-hidden bg-black">

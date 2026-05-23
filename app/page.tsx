@@ -3,7 +3,6 @@ import { EmptyState } from "@/components/empty-state";
 import { EventCard } from "@/components/event-card";
 import { Hero } from "@/components/hero";
 import { PageSection } from "@/components/page-section";
-import { PushNotificationCard } from "@/components/push-notification-card";
 import { StatusCard } from "@/components/status-card";
 import { TodayScheduleSection } from "@/components/today-schedule";
 import { VideoCard } from "@/components/video-card";
@@ -28,9 +27,8 @@ export default async function HomePage() {
     <>
       <Hero />
       <PageSection tone="warm">
-        <div className="grid gap-4 lg:grid-cols-[1.15fr_.85fr]">
+        <div className="max-w-3xl">
           <StatusCard status={status} />
-          <PushNotificationCard />
         </div>
       </PageSection>
       <PageSection

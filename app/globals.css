@@ -28,23 +28,6 @@
   --media-end: #0d141c;
 }
 
-:root.light {
-  color-scheme: light;
-  --academy-black: 248 251 253;
-  --academy-ink: 239 246 250;
-  --academy-charcoal: 232 241 247;
-  --academy-panel: 255 255 255;
-  --academy-card: 8 18 28;
-  --academy-line: 8 18 28;
-  --academy-foreground: 7 14 22;
-  --academy-muted: 70 88 102;
-  --page-bg-a: #f7fbfd;
-  --page-bg-b: #eaf4f8;
-  --page-glow: rgba(0, 174, 239, .20);
-  --media-start: #dff5fc;
-  --media-end: #f8fbfd;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -77,8 +60,4 @@ a {
 
 .hero-scrim {
   background: linear-gradient(110deg, rgba(5, 7, 10, .95), rgba(5, 7, 10, .72), rgba(0, 174, 239, .18));
-}
-
-:root.light .hero-scrim {
-  background: linear-gradient(110deg, rgba(248, 251, 253, .96), rgba(248, 251, 253, .80), rgba(0, 174, 239, .18));
 }

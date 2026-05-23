@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { NavLinks } from "@/components/nav-links";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
   return (
@@ -27,10 +26,6 @@ export function Header() {
           <nav className="flex items-center gap-2" aria-label="Primary navigation">
             <NavLinks />
           </nav>
-          <ThemeToggle />
-        </div>
-        <div className="md:hidden">
-          <ThemeToggle />
         </div>
       </div>
     </header>

@@ -5,8 +5,8 @@ import type { StoredPushSubscription } from "@/lib/push/types";
 const endpointSetKey = "dmjjc:push:endpoints";
 const subscriptionKeyPrefix = "dmjjc:push:subscription:";
 
-const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
-const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+const redisUrl = process.env.UPSTASH_REDIS_REST_URL || process.env.UPSTASH_REDIS_KV_REST_API_URL;
+const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.UPSTASH_REDIS_KV_REST_API_TOKEN;
 
 export const hasPushStorage = Boolean(redisUrl && redisToken);
 

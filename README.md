@@ -123,6 +123,8 @@ UPSTASH_REDIS_REST_URL=your_upstash_redis_rest_url
 UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_rest_token
 ```
 
+Vercel's Upstash integration may create `UPSTASH_REDIS_KV_REST_API_URL` and `UPSTASH_REDIS_KV_REST_API_TOKEN` instead. The app supports those names too.
+
 The homepage shows an urgent alerts opt-in card. If push keys or Redis are missing, the app still runs and explains setup is needed.
 
 To send a notification manually:

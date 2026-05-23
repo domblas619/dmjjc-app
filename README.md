@@ -60,7 +60,47 @@ Example `.env.local`:
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
 NEXT_PUBLIC_SANITY_DATASET=production
 NEXT_PUBLIC_SANITY_API_VERSION=2026-05-20
+SANITY_REVALIDATE_SECRET=use_a_long_random_secret
 ```
+
+## Live Content Updates
+
+Published Sanity content updates the live Vercel app without a manual redeploy.
+
+The app uses two layers:
+
+- Normal content pages revalidate automatically about every 60 seconds.
+- A protected revalidation endpoint lets Sanity refresh the affected pages immediately after publish.
+
+Add this environment variable locally and in Vercel:
+
+```bash
+SANITY_REVALIDATE_SECRET=use_a_long_random_secret
+```
+
+Create a Sanity webhook:
+
+```text
+POST https://your-vercel-domain.com/api/revalidate
+Authorization: Bearer your_sanity_revalidate_secret
+```
+
+Use this webhook projection:
+
+```groq
+{
+  "_type": _type
+}
+```
+
+When Studio publishes:
+
+- `announcement` refreshes `/` and `/updates`
+- `event` refreshes `/` and `/events`
+- `video` refreshes `/videos`
+- `siteStatus` refreshes `/`
+
+Code changes, schema changes, dependency changes, and environment variable changes still require a normal Vercel deploy.
 
 ## Push Notifications
 
@@ -146,6 +186,7 @@ Pinned announcements appear first. Announcements with an expiration date disappe
 2. Import the project in Vercel.
 3. Add the Sanity environment variables in Vercel Project Settings.
 4. Deploy.
+5. Add the Sanity webhook above so Studio publishes refresh the live pages immediately.
 
 If the Sanity variables are missing, the deployed app will still render fallback content.
 

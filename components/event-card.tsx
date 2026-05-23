@@ -13,6 +13,8 @@ export function EventCard({ event }: { event: AcademyEvent }) {
   const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(date);
   const day = new Intl.DateTimeFormat("en-US", { day: "2-digit" }).format(date);
   const showEndDate = Boolean(event.endDate && event.endDate !== event.startDate);
+  const ctaUrl = event.ctaUrl || event.registrationUrl;
+  const ctaLabel = event.ctaLabel || "Details / RSVP";
 
   return (
     <article className={cn("grid gap-5 border p-5 transition hover:border-academy-blue/70 md:grid-cols-[6.5rem_1fr]", urgent ? "border-academy-blue bg-academy-blue/[.07]" : "border-academy-line/10 bg-academy-panel")}>
@@ -45,12 +47,14 @@ export function EventCard({ event }: { event: AcademyEvent }) {
           )}
         </div>
         <p className="mt-4 text-base font-medium leading-7 text-academy-mist">{event.description}</p>
-        {event.registrationUrl && (
+        {ctaUrl && (
           <Link
-            href={event.registrationUrl}
+            href={ctaUrl}
+            target="_blank"
+            rel="noreferrer"
             className="mt-5 inline-flex items-center gap-2 border-b border-academy-blue pb-1 text-sm font-black uppercase tracking-[.14em] text-academy-blue transition hover:text-academy-foreground"
           >
-            Details / RSVP
+            {ctaLabel}
             <ExternalLink size={15} aria-hidden="true" />
           </Link>
         )}

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/badge";
 import { PageSection } from "@/components/page-section";
 import { VideoCard } from "@/components/video-card";
@@ -42,6 +44,17 @@ export default async function VideoPage({ params }: VideoPageProps) {
               <Badge>{video.level}</Badge>
             </div>
             <p className="mt-5 text-lg font-medium leading-8 text-academy-mist">{video.description}</p>
+            {video.ctaLabel && video.ctaUrl && (
+              <Link
+                href={video.ctaUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex min-h-12 items-center gap-2 border-b-2 border-academy-blue text-sm font-black uppercase tracking-[.14em] text-academy-blue transition hover:text-academy-foreground"
+              >
+                {video.ctaLabel}
+                <ArrowRight size={17} aria-hidden="true" />
+              </Link>
+            )}
             <div className="mt-6 border-l-4 border-academy-blue bg-academy-blue/[.08] p-4 text-base font-bold leading-7 text-academy-foreground">
               Practice with control. If you are unsure about a technique, ask a coach before drilling it at home.
             </div>

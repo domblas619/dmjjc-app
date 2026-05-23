@@ -55,6 +55,19 @@ export const video = defineType({
       type: 'datetime',
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: 'ctaLabel',
+      title: 'Button Label',
+      type: 'string',
+      description: 'Optional. Example: Download Notes, View Form, Learn More.',
+    }),
+    defineField({
+      name: 'ctaUrl',
+      title: 'Button URL',
+      type: 'url',
+      description: 'Optional. Add the destination URL for the button.',
+      hidden: ({document}) => !document?.ctaLabel,
+    }),
   ],
   preview: {
     select: {title: 'title', subtitle: 'category', media: 'thumbnail'},

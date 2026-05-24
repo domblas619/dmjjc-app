@@ -4,7 +4,7 @@ import { EventCard } from "@/components/event-card";
 import { Hero } from "@/components/hero";
 import { PageSection } from "@/components/page-section";
 import { PushNotificationCard } from "@/components/push-notification-card";
-import { StatusCard } from "@/components/status-card";
+import { TodayStatusBanner } from "@/components/today-status-banner";
 import { TodayScheduleSection } from "@/components/today-schedule";
 import { VideoCard } from "@/components/video-card";
 import { getUpcomingEvents } from "@/lib/content-filters";
@@ -26,14 +26,9 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero />
-      <PageSection tone="warm">
-        <div className="grid gap-4 lg:grid-cols-[1.15fr_.85fr]">
-          <StatusCard status={status} />
-          <PushNotificationCard />
-        </div>
-      </PageSection>
+      <TodayStatusBanner status={status} schedule={todaySchedule} />
       <PageSection
+        id="today-classes"
         eyebrow="Today / Classes"
         title="Today's Schedule"
         description={`${todaySchedule.dateLabel}. Pulled from the live Google Calendars on the Del Mar Jiu-Jitsu Club schedule.`}
@@ -41,7 +36,12 @@ export default async function HomePage() {
       >
         <TodayScheduleSection schedule={todaySchedule} />
       </PageSection>
+      <Hero />
+      <PageSection tone="warm">
+        <PushNotificationCard />
+      </PageSection>
       <PageSection
+        id="important-dates"
         eyebrow="Schedule / Events"
         title="Important Dates"
         description="Upcoming closures, events, and schedule changes."

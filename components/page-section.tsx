@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 
 type PageSectionProps = {
+  id?: string;
   eyebrow?: string;
   title?: string;
   description?: string;
@@ -15,9 +16,9 @@ const tones = {
   transparent: "border-academy-line/10"
 };
 
-export function PageSection({ eyebrow, title, description, tone = "transparent", children, className }: PageSectionProps) {
+export function PageSection({ id, eyebrow, title, description, tone = "transparent", children, className }: PageSectionProps) {
   return (
-    <section className={cn("border-t", tones[tone], className)}>
+    <section id={id} className={cn("border-t", tones[tone], className)}>
       <div className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8 md:py-20">
         {(eyebrow || title || description) && (
           <div className="mb-9 grid gap-4 md:grid-cols-[.72fr_1.28fr] md:items-end">

@@ -3,6 +3,7 @@ export type ScheduleCalendarKey = "adult-gi" | "toddlers" | "kids" | "teens" | "
 export type TodayScheduleItem = {
   id: string;
   title: string;
+  displayTitle: string;
   calendar: ScheduleCalendarKey;
   startLabel: string;
   endLabel: string;
@@ -193,6 +194,38 @@ function timeLabelFromMinutes(minutes: number) {
   }).format(date);
 }
 
+function timeRangeLabel(startMinutes: number, endMinutes: number) {
+  const format = (minutes: number) => {
+    const date = new Date(Date.UTC(2020, 0, 1, Math.floor(minutes / 60), minutes % 60));
+
+    return new Intl.DateTimeFormat("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "UTC"
+    }).format(date);
+  };
+  const start = format(startMinutes);
+  const end = format(endMinutes);
+  const startIsAm = start.toLowerCase().endsWith("am");
+  const startIsPm = start.toLowerCase().endsWith("pm");
+  const endIsAm = end.toLowerCase().endsWith("am");
+  const endIsPm = end.toLowerCase().endsWith("pm");
+
+  if ((startIsAm && endIsAm) || (startIsPm && endIsPm)) {
+    return `${start.replace(/\s?(AM|PM)/i, "")}–${end}`;
+  }
+
+  return `${start}–${end}`;
+}
+
+function classDisplayTitle(title: string) {
+  return title
+    .replace(/\((\d+)-(\d+)yo\)/gi, "— Ages $1–$2")
+    .replace(/\((\d+)yo\+\)/gi, "— Ages $1+")
+    .replace(/\s+—\s+/g, " — ")
+    .trim();
+}
+
 function happensToday(event: ParsedEvent, dateKey: string, dayCode: string) {
   const startKey = dateKeyFromIcs(event.dtstart);
 
@@ -251,10 +284,11 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
           return {
             id: `${calendar}-${event.uid || event.summary || startMinutes}`,
             title: event.summary || "Class",
+            displayTitle: classDisplayTitle(event.summary || "Class"),
             calendar,
             startLabel: timeLabelFromMinutes(startMinutes),
             endLabel: timeLabelFromMinutes(endMinutes),
-            timeLabel: `${timeLabelFromMinutes(startMinutes)}-${timeLabelFromMinutes(endMinutes)}`,
+            timeLabel: timeRangeLabel(startMinutes, endMinutes),
             location: event.location,
             startMinutes
           };

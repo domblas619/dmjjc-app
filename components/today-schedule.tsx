@@ -2,14 +2,6 @@ import Link from "next/link";
 import { AlertTriangle, ArrowUpRight } from "lucide-react";
 import type { TodaySchedule } from "@/lib/schedule";
 
-const categoryLabels = {
-  "adult-gi": "Adults",
-  toddlers: "Toddlers",
-  kids: "Kids",
-  teens: "Teens",
-  "open-mat": "Open Mat"
-};
-
 export function TodayScheduleSection({ schedule }: { schedule: TodaySchedule }) {
   return (
     <div className="space-y-6">
@@ -35,16 +27,12 @@ export function TodayScheduleSection({ schedule }: { schedule: TodaySchedule }) 
       <div className="border-y border-academy-line/10">
         {schedule.items.length > 0 ? (
           schedule.items.map((item) => (
-            <article key={item.id} className="grid gap-3 border-b border-academy-line/10 py-5 last:border-b-0 md:grid-cols-[9rem_1fr_auto] md:items-center">
+            <article key={item.id} className="grid gap-2 border-b border-academy-line/10 py-5 last:border-b-0 md:grid-cols-[13rem_1fr] md:items-baseline">
+              <p className="font-display text-2xl font-black uppercase leading-none text-academy-blue sm:text-3xl">{item.timeLabel}</p>
               <div>
-                <p className="font-display text-3xl font-black uppercase leading-none text-academy-foreground">{item.startLabel}</p>
-                <p className="mt-1 text-xs font-black uppercase tracking-[.18em] text-academy-mist">{item.endLabel} End</p>
+                <h3 className="font-display text-2xl font-black uppercase leading-none text-academy-foreground md:text-3xl">{item.displayTitle}</h3>
+                {item.location && <p className="mt-2 text-sm font-bold uppercase tracking-[.12em] text-academy-muted">{item.location}</p>}
               </div>
-              <div>
-                <p className="text-xs font-black uppercase tracking-[.22em] text-academy-blue">{categoryLabels[item.calendar]}</p>
-                <h3 className="mt-2 font-display text-2xl font-black uppercase leading-none text-academy-foreground md:text-3xl">{item.title}</h3>
-              </div>
-              <p className="text-sm font-black uppercase tracking-[.14em] text-academy-muted md:text-right">{item.timeLabel}</p>
             </article>
           ))
         ) : (

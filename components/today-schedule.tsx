@@ -25,7 +25,14 @@ export function TodayScheduleSection({ schedule }: { schedule: TodaySchedule }) 
       )}
 
       <div className="border-y border-academy-line/10">
-        {schedule.items.length > 0 ? (
+        {schedule.hasClosure ? (
+          <div className="py-8">
+            <p className="font-display text-2xl font-black uppercase text-academy-foreground">Academy closed today</p>
+            <p className="mt-2 max-w-2xl text-base font-medium leading-7 text-academy-mist">
+              Today's class schedule is hidden because a closure is scheduled for today. Check the closure notice above before heading to the academy.
+            </p>
+          </div>
+        ) : schedule.items.length > 0 ? (
           schedule.items.map((item) => (
             <article key={item.id} className="grid gap-2 border-b border-academy-line/10 py-5 last:border-b-0 md:grid-cols-[13rem_1fr] md:items-baseline">
               <p className="font-display text-2xl font-black uppercase leading-none text-academy-blue sm:text-3xl">{item.timeLabel}</p>

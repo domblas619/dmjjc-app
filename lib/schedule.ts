@@ -24,6 +24,7 @@ export type TodaySchedule = {
   dateLabel: string;
   items: TodayScheduleItem[];
   notices: TodayScheduleNotice[];
+  hasClosure: boolean;
   sourceUrl: string;
 };
 
@@ -273,28 +274,42 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
     getCalendarEvents(noticeCalendars.closures)
   ]);
 
-  const items = classResults
-    .flatMap(({ calendar, events }) =>
-      events
-        .filter((event) => happensToday(event, today.dateKey, today.dayCode))
-        .map((event) => {
-          const startMinutes = minutesFromIcs(event.dtstart);
-          const endMinutes = minutesFromIcs(event.dtend);
+  const closureItems = closureNotices
+    .filter((event) => happensToday(event, today.dateKey, today.dayCode))
+    .map((event) => ({
+      id: event.uid || event.summary || "closure",
+      title: event.summary || "Academy Closure",
+      type: "Closure" as const,
+      dateLabel: today.dateLabel,
+      description: event.description
+    }));
 
-          return {
-            id: `${calendar}-${event.uid || event.summary || startMinutes}`,
-            title: event.summary || "Class",
-            displayTitle: classDisplayTitle(event.summary || "Class"),
-            calendar,
-            startLabel: timeLabelFromMinutes(startMinutes),
-            endLabel: timeLabelFromMinutes(endMinutes),
-            timeLabel: timeRangeLabel(startMinutes, endMinutes),
-            location: event.location,
-            startMinutes
-          };
-        })
-    )
-    .sort((a, b) => a.startMinutes - b.startMinutes || a.title.localeCompare(b.title));
+  const hasClosure = closureItems.length > 0;
+
+  const items = hasClosure
+    ? []
+    : classResults
+        .flatMap(({ calendar, events }) =>
+          events
+            .filter((event) => happensToday(event, today.dateKey, today.dayCode))
+            .map((event) => {
+              const startMinutes = minutesFromIcs(event.dtstart);
+              const endMinutes = minutesFromIcs(event.dtend);
+
+              return {
+                id: `${calendar}-${event.uid || event.summary || startMinutes}`,
+                title: event.summary || "Class",
+                displayTitle: classDisplayTitle(event.summary || "Class"),
+                calendar,
+                startLabel: timeLabelFromMinutes(startMinutes),
+                endLabel: timeLabelFromMinutes(endMinutes),
+                timeLabel: timeRangeLabel(startMinutes, endMinutes),
+                location: event.location,
+                startMinutes
+              };
+            })
+        )
+        .sort((a, b) => a.startMinutes - b.startMinutes || a.title.localeCompare(b.title));
 
   const notices = [
     ...eventNotices
@@ -306,21 +321,14 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
         dateLabel: today.dateLabel,
         description: event.description
       })),
-    ...closureNotices
-      .filter((event) => happensToday(event, today.dateKey, today.dayCode))
-      .map((event) => ({
-        id: event.uid || event.summary || "closure",
-        title: event.summary || "Academy Closure",
-        type: "Closure" as const,
-        dateLabel: today.dateLabel,
-        description: event.description
-      }))
+    ...closureItems
   ];
 
   return {
     dateLabel: today.dateLabel,
     items,
     notices,
+    hasClosure,
     sourceUrl: scheduleSourceUrl
   };
 }

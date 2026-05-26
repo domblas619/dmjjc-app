@@ -25,9 +25,17 @@ export const siteStatus = defineType({
     }),
     defineField({
       name: 'updatedAt',
-      title: 'Updated At',
+      title: 'Starts At',
       type: 'datetime',
+      description: 'When this status should begin showing.',
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'expiresAt',
+      title: 'Expires At',
+      type: 'datetime',
+      description:
+        'Optional. If blank, this status automatically stops showing at midnight the next day.',
     }),
   ],
   preview: {

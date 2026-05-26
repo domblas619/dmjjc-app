@@ -85,5 +85,6 @@ export type SiteStatus = {
   statusType: SiteStatusType;
   message: string;
   updatedAt: string;
+  expiresAt?: string;
   isDefault?: boolean;
 };

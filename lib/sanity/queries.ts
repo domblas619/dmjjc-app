@@ -11,6 +11,8 @@ import type { AcademyEvent, Announcement, SiteStatus, Video } from "@/lib/types"
 const imageProjection = `"image": image.asset->url`;
 const thumbProjection = `"thumbnail": thumbnail.asset->url`;
 const exceptionStatusTypes = ["Closed", "Modified Schedule", "Event Day", "Holiday Closure"];
+const statusEventTypes = ["Closure", "Holiday", "Special Schedule"];
+const timeZone = "America/Los_Angeles";
 
 export const sanityCacheTags = {
   announcements: "sanity-announcements",
@@ -18,17 +20,103 @@ export const sanityCacheTags = {
   videos: "sanity-videos"
 } as const;
 
+function todayInTimeZone() {
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).formatToParts(now);
+  const getPart = (type: string) => parts.find((part) => part.type === type)?.value || "";
+  const dateKey = `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
+  const todayStart = zonedDayStart(dateKey);
+  const tomorrowDate = new Date(`${dateKey}T12:00:00Z`);
+  tomorrowDate.setUTCDate(tomorrowDate.getUTCDate() + 1);
+  const tomorrowKey = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "UTC",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(tomorrowDate);
+  const tomorrowStart = zonedDayStart(tomorrowKey);
+
+  return {
+    dateKey,
+    todayStart: todayStart.toISOString(),
+    tomorrowStart: tomorrowStart.toISOString()
+  };
+}
+
+function zonedDayStart(dateKey: string) {
+  const [year, month, day] = dateKey.split("-").map(Number);
+  const utcGuess = new Date(Date.UTC(year, month - 1, day));
+  const offsetName = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    timeZoneName: "shortOffset"
+  })
+    .formatToParts(utcGuess)
+    .find((part) => part.type === "timeZoneName")?.value;
+  const match = offsetName?.match(/GMT([+-])(\d{1,2})(?::(\d{2}))?/);
+  const sign = match?.[1] === "-" ? -1 : 1;
+  const hours = Number(match?.[2] || 0);
+  const minutes = Number(match?.[3] || 0);
+  const offsetMs = sign * (hours * 60 + minutes) * 60 * 1000;
+
+  return new Date(utcGuess.getTime() - offsetMs);
+}
+
+function statusTypeFromEventType(eventType: string): SiteStatus["statusType"] {
+  if (eventType === "Holiday") return "Holiday Closure";
+  if (eventType === "Special Schedule") return "Modified Schedule";
+  return "Closed";
+}
+
 export async function getSiteStatus(): Promise<SiteStatus> {
   noStore();
   if (!hasSanityConfig) return fallbackStatus;
+  const today = todayInTimeZone();
   const data = await urgentClient.fetch<SiteStatus | null>(
-    `*[_type == "siteStatus" && updatedAt <= now() && statusType in $exceptionStatusTypes] | order(updatedAt desc)[0]{
-      title, statusType, message, updatedAt
+    `*[
+      _type == "siteStatus" &&
+      updatedAt <= now() &&
+      statusType in $exceptionStatusTypes &&
+      (
+        (defined(expiresAt) && expiresAt > now()) ||
+        (!defined(expiresAt) && updatedAt >= $todayStart && updatedAt < $tomorrowStart)
+      )
+    ] | order(updatedAt desc)[0]{
+      title, statusType, message, updatedAt, expiresAt
     }`,
-    { exceptionStatusTypes },
+    { exceptionStatusTypes, todayStart: today.todayStart, tomorrowStart: today.tomorrowStart },
     { cache: "no-store" }
   );
-  return data || fallbackStatus;
+
+  if (data) return data;
+
+  const statusEvent = await urgentClient.fetch<Pick<AcademyEvent, "title" | "description" | "eventType" | "startDate"> | null>(
+    `*[
+      _type == "event" &&
+      eventType in $statusEventTypes &&
+      startDate <= $today &&
+      coalesce(endDate, startDate) >= $today
+    ] | order(startDate asc)[0]{
+      title, description, eventType, startDate
+    }`,
+    { statusEventTypes, today: today.dateKey },
+    { cache: "no-store" }
+  );
+
+  if (statusEvent) {
+    return {
+      title: statusEvent.title,
+      statusType: statusTypeFromEventType(statusEvent.eventType),
+      message: statusEvent.description,
+      updatedAt: new Date().toISOString()
+    };
+  }
+
+  return fallbackStatus;
 }
 
 export async function getAnnouncements(): Promise<Announcement[]> {

@@ -10,6 +10,7 @@ import { VideoCard } from "@/components/video-card";
 import { getUpcomingEvents } from "@/lib/content-filters";
 import { getTodaySchedule } from "@/lib/schedule";
 import { getAnnouncements, getEvents, getSiteStatus, getVideos } from "@/lib/sanity/queries";
+import type { SiteStatus } from "@/lib/types";
 
 export const revalidate = 30;
 
@@ -23,10 +24,20 @@ export default async function HomePage() {
   ]);
   const upcomingEvents = getUpcomingEvents(events);
   const featuredVideo = videos.find((video) => video.isFeatured) || videos[0];
+  const closureNotice = todaySchedule.notices.find((notice) => notice.type === "Closure");
+  const effectiveStatus: SiteStatus =
+    status.isDefault && closureNotice
+      ? {
+          title: closureNotice.title,
+          statusType: "Closed",
+          message: closureNotice.description || "The academy is closed today. Regular status will return automatically tomorrow unless another closure is scheduled.",
+          updatedAt: new Date().toISOString()
+        }
+      : status;
 
   return (
     <>
-      <TodayStatusBanner status={status} schedule={todaySchedule} />
+      <TodayStatusBanner status={effectiveStatus} schedule={todaySchedule} />
       <PageSection
         id="today-classes"
         eyebrow="Today / Classes"

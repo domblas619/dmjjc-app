@@ -34,19 +34,19 @@ export function TodayScheduleSection({ schedule }: { schedule: TodaySchedule }) 
           </div>
         ) : schedule.items.length > 0 ? (
           schedule.items.map((item) => (
-            <article key={item.id} className="grid gap-2 border-b border-academy-line/10 py-5 last:border-b-0 md:grid-cols-[13rem_1fr] md:items-baseline">
-              <p className="font-display text-2xl font-black uppercase leading-none text-academy-blue sm:text-3xl">{item.timeLabel}</p>
-              <div>
-                <h3 className="font-display text-2xl font-black uppercase leading-none text-academy-foreground md:text-3xl">{item.displayTitle}</h3>
-                {item.location && <p className="mt-2 text-sm font-bold uppercase tracking-[.12em] text-academy-muted">{item.location}</p>}
-              </div>
+            <article key={item.id} className="border-b border-academy-line/10 py-4 last:border-b-0">
+              <p className="font-display text-xl font-black uppercase leading-tight tracking-[.02em] text-academy-foreground sm:text-2xl">
+                <span className="text-academy-blue">{item.timeLabel}</span>
+                <span className="mx-2 text-academy-muted">|</span>
+                <span>{item.displayTitle}</span>
+              </p>
             </article>
           ))
         ) : (
           <div className="py-8">
-            <p className="font-display text-2xl font-black uppercase text-academy-foreground">No classes listed for today</p>
+            <p className="font-display text-2xl font-black uppercase text-academy-foreground">No more classes listed for today</p>
             <p className="mt-2 max-w-2xl text-base font-medium leading-7 text-academy-mist">
-              Today’s Google Calendar feed does not currently show classes. Check the full schedule or contact the academy before heading in.
+              Today’s remaining Google Calendar feed does not currently show classes. Check the full schedule or contact the academy before heading in.
             </p>
           </div>
         )}

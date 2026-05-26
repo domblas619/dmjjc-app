@@ -13,7 +13,8 @@ export function EventCard({ event }: { event: AcademyEvent }) {
   const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(date);
   const day = new Intl.DateTimeFormat("en-US", { day: "2-digit" }).format(date);
   const showEndDate = Boolean(event.endDate && event.endDate !== event.startDate);
-  const ctaUrl = event.ctaUrl || event.registrationUrl;
+  const showCta = event.showCta ?? Boolean(event.ctaUrl || event.registrationUrl);
+  const ctaUrl = showCta ? event.ctaUrl || event.registrationUrl : undefined;
   const ctaLabel = event.ctaLabel || "Details / RSVP";
 
   return (

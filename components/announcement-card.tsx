@@ -5,6 +5,8 @@ import { formatDate } from "@/lib/format";
 import type { Announcement } from "@/lib/types";
 
 export function AnnouncementCard({ announcement }: { announcement: Announcement }) {
+  const showCta = announcement.showCta ?? Boolean(announcement.ctaLabel && announcement.ctaUrl);
+
   return (
     <article className="group border border-academy-line/10 bg-academy-panel p-5 transition hover:border-academy-blue/60">
       <div className="flex flex-wrap items-center gap-3">
@@ -16,7 +18,7 @@ export function AnnouncementCard({ announcement }: { announcement: Announcement 
         <h3 className="font-display text-2xl font-black uppercase leading-[.95] text-academy-foreground transition group-hover:text-academy-blue sm:text-3xl">{announcement.title}</h3>
         <div>
           <p className="text-base font-medium leading-7 text-academy-mist">{announcement.body}</p>
-          {announcement.ctaLabel && announcement.ctaUrl && (
+          {showCta && announcement.ctaLabel && announcement.ctaUrl && (
             <Link
               href={announcement.ctaUrl}
               target="_blank"

@@ -35,7 +35,7 @@ export async function getAnnouncements(): Promise<Announcement[]> {
   if (!hasSanityConfig) return fallbackAnnouncements;
   const data = await client.fetch<Announcement[]>(
     `*[_type == "announcement" && (!defined(expiresAt) || expiresAt > now())] | order(coalesce(isPinned, false) desc, publishedAt desc){
-      title, "slug": slug.current, publishedAt, category, body, isFeatured, isPinned, expiresAt, ctaLabel, ctaUrl, ${imageProjection}
+      title, "slug": slug.current, publishedAt, category, body, isFeatured, isPinned, expiresAt, showCta, ctaLabel, ctaUrl, ${imageProjection}
     }`,
     {},
     { next: { revalidate: 60, tags: [sanityCacheTags.announcements] } }
@@ -47,7 +47,7 @@ export async function getEvents(): Promise<AcademyEvent[]> {
   if (!hasSanityConfig) return fallbackEvents;
   const data = await client.fetch<AcademyEvent[]>(
     `*[_type == "event"] | order(startDate asc){
-      title, "slug": slug.current, startDate, endDate, time, location, eventType, description, isFeatured, statusBadge, registrationUrl, ctaLabel, ctaUrl, audience, ${imageProjection}
+      title, "slug": slug.current, startDate, endDate, time, location, eventType, description, isFeatured, statusBadge, registrationUrl, showCta, ctaLabel, ctaUrl, audience, ${imageProjection}
     }`,
     {},
     { next: { revalidate: 60, tags: [sanityCacheTags.events] } }
@@ -59,7 +59,7 @@ export async function getVideos(): Promise<Video[]> {
   if (!hasSanityConfig) return fallbackVideos;
   const data = await client.fetch<Video[]>(
     `*[_type == "video"] | order(publishedAt desc){
-      title, "slug": slug.current, description, category, level, videoUrl, isFeatured, publishedAt, ctaLabel, ctaUrl, ${thumbProjection}
+      title, "slug": slug.current, description, category, level, videoUrl, isFeatured, publishedAt, showCta, ctaLabel, ctaUrl, ${thumbProjection}
     }`,
     {},
     { next: { revalidate: 60, tags: [sanityCacheTags.videos] } }

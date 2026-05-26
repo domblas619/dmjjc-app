@@ -41,6 +41,7 @@ export type Announcement = {
   isFeatured?: boolean;
   isPinned?: boolean;
   expiresAt?: string;
+  showCta?: boolean;
   ctaLabel?: string;
   ctaUrl?: string;
 };
@@ -58,6 +59,7 @@ export type AcademyEvent = {
   isFeatured?: boolean;
   statusBadge?: string;
   registrationUrl?: string;
+  showCta?: boolean;
   ctaLabel?: string;
   ctaUrl?: string;
   audience?: string;
@@ -73,6 +75,7 @@ export type Video = {
   videoUrl: string;
   isFeatured?: boolean;
   publishedAt: string;
+  showCta?: boolean;
   ctaLabel?: string;
   ctaUrl?: string;
 };

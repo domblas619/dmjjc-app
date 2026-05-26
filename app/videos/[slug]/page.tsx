@@ -24,6 +24,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
   const [video, videos] = await Promise.all([getVideoBySlug(slug), getVideos()]);
   if (!video) notFound();
   const related = videos.filter((item) => item.slug !== video.slug && item.category === video.category).slice(0, 3);
+  const showCta = video.showCta ?? Boolean(video.ctaLabel && video.ctaUrl);
 
   return (
     <>
@@ -44,7 +45,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
               <Badge>{video.level}</Badge>
             </div>
             <p className="mt-5 text-lg font-medium leading-8 text-academy-mist">{video.description}</p>
-            {video.ctaLabel && video.ctaUrl && (
+            {showCta && video.ctaLabel && video.ctaUrl && (
               <Link
                 href={video.ctaUrl}
                 target="_blank"

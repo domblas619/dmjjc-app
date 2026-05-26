@@ -5,6 +5,8 @@ import { Badge } from "@/components/badge";
 import type { Video } from "@/lib/types";
 
 export function VideoCard({ video }: { video: Video }) {
+  const showCta = video.showCta ?? Boolean(video.ctaLabel && video.ctaUrl);
+
   return (
     <article className="group overflow-hidden border border-academy-line/10 bg-academy-panel transition hover:border-academy-blue/70">
       <Link href={`/videos/${video.slug}`} className="block">
@@ -28,7 +30,7 @@ export function VideoCard({ video }: { video: Video }) {
           <h3 className="mt-4 font-display text-2xl font-black uppercase leading-[.95] text-academy-foreground transition group-hover:text-academy-blue sm:text-3xl">{video.title}</h3>
         </Link>
         <p className="mt-3 text-base font-medium leading-7 text-academy-mist">{video.description}</p>
-        {video.ctaLabel && video.ctaUrl && (
+        {showCta && video.ctaLabel && video.ctaUrl && (
           <Link
             href={video.ctaUrl}
             target="_blank"

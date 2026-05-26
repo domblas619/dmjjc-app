@@ -46,17 +46,25 @@ export const announcement = defineType({
       description: 'Optional. After this date, the app will stop showing the announcement.',
     }),
     defineField({
+      name: 'showCta',
+      title: 'Show CTA Button',
+      type: 'boolean',
+      description: 'Turn this on to add a button/link to this announcement.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'ctaLabel',
       title: 'Button Label',
       type: 'string',
-      description: 'Optional. Example: Submit a Nomination, RSVP, Learn More.',
+      description: 'Example: Submit a Nomination, RSVP, Learn More.',
+      hidden: ({document}) => !document?.showCta,
     }),
     defineField({
       name: 'ctaUrl',
       title: 'Button URL',
       type: 'url',
-      description: 'Optional. Add the destination URL for the button, such as a Google Form.',
-      hidden: ({document}) => !document?.ctaLabel,
+      description: 'Add the destination URL for the button, such as a Google Form.',
+      hidden: ({document}) => !document?.showCta,
     }),
   ],
   preview: {

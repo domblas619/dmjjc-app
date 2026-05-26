@@ -10,6 +10,7 @@ export type TodayScheduleItem = {
   timeLabel: string;
   location?: string;
   startMinutes: number;
+  endMinutes: number;
 };
 
 export type TodayScheduleNotice = {
@@ -75,15 +76,20 @@ function todayParts() {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
     weekday: "short"
   }).formatToParts(now);
   const getPart = (type: string) => parts.find((part) => part.type === type)?.value || "";
   const dateKey = `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
   const date = new Date(`${dateKey}T12:00:00`);
+  const currentMinutes = Number(getPart("hour")) * 60 + Number(getPart("minute"));
 
   return {
     dateKey,
     dayCode: dayCodes[date.getDay()],
+    currentMinutes,
     dateLabel: new Intl.DateTimeFormat("en-US", {
       timeZone,
       weekday: "long",
@@ -213,10 +219,10 @@ function timeRangeLabel(startMinutes: number, endMinutes: number) {
   const endIsPm = end.toLowerCase().endsWith("pm");
 
   if ((startIsAm && endIsAm) || (startIsPm && endIsPm)) {
-    return `${start.replace(/\s?(AM|PM)/i, "")}–${end}`;
+    return `${start.replace(/\s?(AM|PM)/i, "")}-${end}`;
   }
 
-  return `${start}–${end}`;
+  return `${start}-${end}`;
 }
 
 function classDisplayTitle(title: string) {
@@ -305,10 +311,12 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
                 endLabel: timeLabelFromMinutes(endMinutes),
                 timeLabel: timeRangeLabel(startMinutes, endMinutes),
                 location: event.location,
-                startMinutes
+                startMinutes,
+                endMinutes
               };
             })
         )
+        .filter((item) => item.endMinutes > today.currentMinutes)
         .sort((a, b) => a.startMinutes - b.startMinutes || a.title.localeCompare(b.title));
 
   const notices = [

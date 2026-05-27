@@ -4,6 +4,7 @@ import type { StoredPushSubscription } from "@/lib/push/types";
 
 const endpointSetKey = "dmjjc:push:endpoints";
 const subscriptionKeyPrefix = "dmjjc:push:subscription:";
+const reminderKeyPrefix = "dmjjc:push:reminder:";
 
 const redisUrl = process.env.UPSTASH_REDIS_REST_URL || process.env.UPSTASH_REDIS_KV_REST_API_URL;
 const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.UPSTASH_REDIS_KV_REST_API_TOKEN;
@@ -55,4 +56,16 @@ export async function getPushSubscriptions() {
 export async function getPushSubscriptionCount() {
   if (!redis) return 0;
   return redis.scard(endpointSetKey);
+}
+
+export async function claimReminderSend(reminderId: string) {
+  if (!redis) return { claimed: false, reason: "Push reminder storage is not configured." };
+
+  const key = `${reminderKeyPrefix}${reminderId}`;
+  const result = await redis.set(key, new Date().toISOString(), {
+    nx: true,
+    ex: 60 * 60 * 24 * 45
+  });
+
+  return { claimed: result === "OK" };
 }

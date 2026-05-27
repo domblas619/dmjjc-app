@@ -155,11 +155,12 @@ Use a Sanity webhook projection like:
   "category": category,
   "eventType": eventType,
   "statusType": statusType,
-  "isPinned": isPinned
+  "isPinned": isPinned,
+  "sendPushAlert": sendPushAlert
 }
 ```
 
-The webhook route only sends notifications for urgent content: closed/modified/event-day status updates, closure/holiday/special-schedule events, pinned announcements, and closure announcements.
+The webhook route sends notifications for content with `Send Push Alert` enabled. It also sends automatically for urgent content: closed/modified/event-day status updates, closure/holiday/special-schedule events, pinned announcements, and closure announcements.
 
 On iPhone, web push requires iOS/iPadOS 16.4 or newer and the app must be added to the Home Screen.
 
@@ -167,7 +168,7 @@ On iPhone, web push requires iOS/iPadOS 16.4 or newer and the app must be added 
 
 In Sanity Studio, editors can update:
 
-- Announcements: title, slug, published date, category, body, image, featured flag, pinned notice flag, optional expiration date
+- Announcements: title, slug, published date, category, body, image, featured flag, pinned notice flag, send push alert toggle, optional expiration date
 - Events: title, slug, start/end date, time, location, event type, description, optional audience, optional status badge, optional registration/details URL, image, featured flag
 - Videos: title, slug, description, category, level, thumbnail, embedded video URL, featured flag, published date
 - Site status: title, status type, message, updated date

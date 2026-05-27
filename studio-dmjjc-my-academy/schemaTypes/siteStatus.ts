@@ -37,6 +37,14 @@ export const siteStatus = defineType({
       description:
         'Optional. If blank, this status automatically stops showing at midnight the next day.',
     }),
+    defineField({
+      name: 'sendPushAlert',
+      title: 'Send Push Alert',
+      type: 'boolean',
+      description:
+        'Turn this on when publishing a status exception that should notify subscribed members.',
+      initialValue: false,
+    }),
   ],
   preview: {
     select: {title: 'title', subtitle: 'statusType'},

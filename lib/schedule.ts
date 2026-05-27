@@ -233,6 +233,29 @@ function classDisplayTitle(title: string) {
     .trim();
 }
 
+function scheduleItemKey(item: TodayScheduleItem) {
+  return [
+    item.startMinutes,
+    item.endMinutes,
+    item.displayTitle.toLowerCase().replace(/\s+/g, " ").trim()
+  ].join("|");
+}
+
+function uniqueScheduleItems(items: TodayScheduleItem[]) {
+  const seen = new Set<string>();
+
+  return items.filter((item) => {
+    const key = scheduleItemKey(item);
+
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
+}
+
 function happensToday(event: ParsedEvent, dateKey: string, dayCode: string) {
   const startKey = dateKeyFromIcs(event.dtstart);
 
@@ -292,32 +315,35 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
 
   const hasClosure = closureItems.length > 0;
 
+  const classItems = classResults
+    .flatMap(({ calendar, events }) =>
+      events
+        .filter((event) => happensToday(event, today.dateKey, today.dayCode))
+        .map((event) => {
+          const startMinutes = minutesFromIcs(event.dtstart);
+          const endMinutes = minutesFromIcs(event.dtend);
+
+          return {
+            id: `${calendar}-${event.uid || event.summary || startMinutes}`,
+            title: event.summary || "Class",
+            displayTitle: classDisplayTitle(event.summary || "Class"),
+            calendar,
+            startLabel: timeLabelFromMinutes(startMinutes),
+            endLabel: timeLabelFromMinutes(endMinutes),
+            timeLabel: timeRangeLabel(startMinutes, endMinutes),
+            location: event.location,
+            startMinutes,
+            endMinutes
+          };
+        })
+    )
+    .filter((item) => item.endMinutes > today.currentMinutes);
+
   const items = hasClosure
     ? []
-    : classResults
-        .flatMap(({ calendar, events }) =>
-          events
-            .filter((event) => happensToday(event, today.dateKey, today.dayCode))
-            .map((event) => {
-              const startMinutes = minutesFromIcs(event.dtstart);
-              const endMinutes = minutesFromIcs(event.dtend);
-
-              return {
-                id: `${calendar}-${event.uid || event.summary || startMinutes}`,
-                title: event.summary || "Class",
-                displayTitle: classDisplayTitle(event.summary || "Class"),
-                calendar,
-                startLabel: timeLabelFromMinutes(startMinutes),
-                endLabel: timeLabelFromMinutes(endMinutes),
-                timeLabel: timeRangeLabel(startMinutes, endMinutes),
-                location: event.location,
-                startMinutes,
-                endMinutes
-              };
-            })
-        )
-        .filter((item) => item.endMinutes > today.currentMinutes)
-        .sort((a, b) => a.startMinutes - b.startMinutes || a.title.localeCompare(b.title));
+    : uniqueScheduleItems(classItems).sort(
+        (a, b) => a.startMinutes - b.startMinutes || a.title.localeCompare(b.title)
+      );
 
   const notices = [
     ...eventNotices

@@ -163,12 +163,12 @@ Use a Sanity webhook projection like:
 
 The webhook route sends notifications for content with `Send Push Alert` enabled. It also sends automatically for urgent content: closed/modified/event-day status updates, closure/holiday/special-schedule events, pinned announcements, and closure announcements.
 
-Event and closure reminders are sent by Vercel Cron through `/api/cron/reminders`:
+Event and closure reminders are sent by GitHub Actions calling `/api/cron/reminders`:
 
 - 12:00 PM Pacific the day before the event or closure
 - 7:00 AM Pacific the morning of the event or closure
 
-The cron route checks Sanity events and stores sent reminder IDs in Upstash Redis so each reminder is only sent once. Vercel sends `CRON_SECRET` as a bearer token when calling the route, so `CRON_SECRET` must be set in Vercel.
+The reminder route checks Sanity events and stores sent reminder IDs in Upstash Redis so each reminder is only sent once. `CRON_SECRET` must be set in Vercel and as a GitHub Actions repository secret with the same value.
 
 On iPhone, web push requires iOS/iPadOS 16.4 or newer and the app must be added to the Home Screen.
 
@@ -194,7 +194,7 @@ Today’s Status shows “Open - Regular Schedule” by default. Publish a `site
 3. Add the Sanity environment variables in Vercel Project Settings.
 4. Deploy.
 5. Add the Sanity webhook above so Studio publishes refresh the live pages immediately.
-6. Add `CRON_SECRET` in Vercel Project Settings so scheduled reminders can run securely.
+6. Add `CRON_SECRET` in Vercel Project Settings and GitHub Actions repository secrets so scheduled reminders can run securely.
 
 If the Sanity variables are missing, the deployed app will still render empty states instead of public-facing demo content.
 

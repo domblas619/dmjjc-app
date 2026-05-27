@@ -119,6 +119,7 @@ NEXT_PUBLIC_VAPID_PUBLIC_KEY=your_public_vapid_key
 VAPID_PRIVATE_KEY=your_private_vapid_key
 VAPID_SUBJECT=mailto:info@delmarjiujitsuclub.com
 PUSH_WEBHOOK_SECRET=use_a_long_random_secret
+CRON_SECRET=use_a_long_random_secret
 UPSTASH_REDIS_REST_URL=your_upstash_redis_rest_url
 UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_rest_token
 ```
@@ -162,6 +163,13 @@ Use a Sanity webhook projection like:
 
 The webhook route sends notifications for content with `Send Push Alert` enabled. It also sends automatically for urgent content: closed/modified/event-day status updates, closure/holiday/special-schedule events, pinned announcements, and closure announcements.
 
+Event and closure reminders are sent by Vercel Cron through `/api/cron/reminders`:
+
+- 12:00 PM Pacific the day before the event or closure
+- 7:00 AM Pacific the morning of the event or closure
+
+The cron route checks Sanity events and stores sent reminder IDs in Upstash Redis so each reminder is only sent once. Vercel sends `CRON_SECRET` as a bearer token when calling the route, so `CRON_SECRET` must be set in Vercel.
+
 On iPhone, web push requires iOS/iPadOS 16.4 or newer and the app must be added to the Home Screen.
 
 ## Content Editing
@@ -186,6 +194,7 @@ Today’s Status shows “Open - Regular Schedule” by default. Publish a `site
 3. Add the Sanity environment variables in Vercel Project Settings.
 4. Deploy.
 5. Add the Sanity webhook above so Studio publishes refresh the live pages immediately.
+6. Add `CRON_SECRET` in Vercel Project Settings so scheduled reminders can run securely.
 
 If the Sanity variables are missing, the deployed app will still render empty states instead of public-facing demo content.
 

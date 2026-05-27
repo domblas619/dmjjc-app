@@ -53,6 +53,13 @@ export const event = defineType({
       description: 'Optional. Example: All Students, Kids Program, Adults, Parents.',
     }),
     defineField({
+      name: 'sendPushAlert',
+      title: 'Send Push Alert',
+      type: 'boolean',
+      description: 'Turn this on when publishing an event that should notify subscribed members.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'registrationUrl',
       title: 'Registration / Details URL',
       type: 'url',

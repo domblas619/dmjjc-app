@@ -40,6 +40,14 @@ export const announcement = defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'sendPushAlert',
+      title: 'Send Push Alert',
+      type: 'boolean',
+      description:
+        'Turn this on when publishing an announcement that should notify subscribed members.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'expiresAt',
       title: 'Expires At',
       type: 'datetime',

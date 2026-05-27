@@ -15,8 +15,9 @@ function getAuthSecret(request: Request) {
 
 function toPushPayload(document: Record<string, unknown>): PushPayload | null {
   const type = document._type;
+  const sendPushAlert = document.sendPushAlert === true;
 
-  if (type === "siteStatus" && urgentStatusTypes.has(String(document.statusType))) {
+  if (type === "siteStatus" && (sendPushAlert || urgentStatusTypes.has(String(document.statusType)))) {
     return {
       title: String(document.title || "Academy Status Update"),
       body: String(document.message || "Check the latest academy status before heading to class."),
@@ -25,7 +26,7 @@ function toPushPayload(document: Record<string, unknown>): PushPayload | null {
     };
   }
 
-  if (type === "event" && urgentEventTypes.has(String(document.eventType))) {
+  if (type === "event" && (sendPushAlert || urgentEventTypes.has(String(document.eventType)))) {
     return {
       title: String(document.title || "Important Date"),
       body: String(document.description || "Check the latest event or closure details."),
@@ -34,7 +35,7 @@ function toPushPayload(document: Record<string, unknown>): PushPayload | null {
     };
   }
 
-  if (type === "announcement" && (document.isPinned || document.category === "Closure")) {
+  if (type === "announcement" && (sendPushAlert || document.isPinned || document.category === "Closure")) {
     return {
       title: String(document.title || "Academy Update"),
       body: String(document.body || "There is a new important academy update."),

@@ -40,6 +40,7 @@ export type Announcement = {
   image?: string;
   isFeatured?: boolean;
   isPinned?: boolean;
+  sendPushAlert?: boolean;
   expiresAt?: string;
   showCta?: boolean;
   ctaLabel?: string;
@@ -59,6 +60,7 @@ export type AcademyEvent = {
   isFeatured?: boolean;
   statusBadge?: string;
   registrationUrl?: string;
+  sendPushAlert?: boolean;
   showCta?: boolean;
   ctaLabel?: string;
   ctaUrl?: string;
@@ -86,5 +88,6 @@ export type SiteStatus = {
   message: string;
   updatedAt: string;
   expiresAt?: string;
+  sendPushAlert?: boolean;
   isDefault?: boolean;
 };

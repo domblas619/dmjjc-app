@@ -21,8 +21,13 @@ export const metadata: Metadata = {
   applicationName: "Del Mar Jiu-Jitsu Club",
   manifest: "/manifest.webmanifest",
   icons: {
-    icon: "/dmjjc-logo-icon.png",
-    apple: "/dmjjc-logo-icon.png"
+    icon: [
+      { url: "/icons/app/dmjjc-favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icons/app/dmjjc-favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/app/dmjjc-app-icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/app/dmjjc-app-icon-512.png", sizes: "512x512", type: "image/png" }
+    ],
+    apple: "/icons/app/dmjjc-apple-touch-icon.png"
   },
   appleWebApp: {
     capable: true,

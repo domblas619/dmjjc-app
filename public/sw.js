@@ -25,8 +25,8 @@ self.addEventListener("push", (event) => {
   event.waitUntil(
     self.registration.showNotification(payload.title, {
       body: payload.body,
-      icon: "/dmjjc-logo-icon.png",
-      badge: "/dmjjc-logo-icon.png",
+      icon: "/icons/app/dmjjc-app-icon-192.png",
+      badge: "/icons/app/dmjjc-app-icon-192.png",
       tag: payload.tag,
       data: {
         url: payload.url

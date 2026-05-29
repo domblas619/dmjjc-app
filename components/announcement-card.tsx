@@ -23,7 +23,7 @@ export function AnnouncementCard({ announcement }: { announcement: Announcement 
               href={announcement.ctaUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-5 inline-flex min-h-11 items-center gap-2 border-b-2 border-academy-blue text-sm font-black uppercase tracking-[.14em] text-academy-blue transition hover:text-academy-foreground"
+              className="tap-spring mt-5 inline-flex min-h-11 items-center gap-2 border-b-2 border-academy-blue text-sm font-black uppercase tracking-[.14em] text-academy-blue hover:text-academy-foreground"
             >
               {announcement.ctaLabel}
               <ArrowRight size={16} aria-hidden="true" />

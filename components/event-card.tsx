@@ -53,7 +53,7 @@ export function EventCard({ event }: { event: AcademyEvent }) {
             href={ctaUrl}
             target="_blank"
             rel="noreferrer"
-            className="mt-5 inline-flex items-center gap-2 border-b border-academy-blue pb-1 text-sm font-black uppercase tracking-[.14em] text-academy-blue transition hover:text-academy-foreground"
+            className="tap-spring mt-5 inline-flex items-center gap-2 border-b border-academy-blue pb-1 text-sm font-black uppercase tracking-[.14em] text-academy-blue hover:text-academy-foreground"
           >
             {ctaLabel}
             <ExternalLink size={15} aria-hidden="true" />

@@ -62,7 +62,7 @@ export function VideoLibrary({ videos }: { videos: Video[] }) {
               key={filter}
               type="button"
               onClick={() => setCategory(filter)}
-              className={`shrink-0 border px-4 py-3 text-xs font-black uppercase tracking-[.16em] transition ${
+              className={`tap-spring shrink-0 border px-4 py-3 text-xs font-black uppercase tracking-[.16em] ${
                 category === filter
                   ? "border-academy-blue bg-academy-blue text-[#05080c]"
                   : "border-academy-line/15 bg-transparent text-academy-foreground hover:border-academy-blue hover:text-academy-blue"
@@ -82,7 +82,7 @@ export function VideoLibrary({ videos }: { videos: Video[] }) {
               key={filter}
               type="button"
               onClick={() => setLevel(filter)}
-              className={`shrink-0 border px-4 py-3 text-xs font-black uppercase tracking-[.16em] transition ${
+              className={`tap-spring shrink-0 border px-4 py-3 text-xs font-black uppercase tracking-[.16em] ${
                 level === filter
                   ? "border-academy-blue bg-academy-blue text-[#05080c]"
                   : "border-academy-line/15 bg-transparent text-academy-foreground hover:border-academy-blue hover:text-academy-blue"

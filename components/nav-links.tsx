@@ -22,7 +22,7 @@ export function NavLinks({ mobile = false }: { mobile?: boolean }) {
         key={href}
         href={href}
         className={cn(
-          "relative inline-flex items-center gap-2 font-black uppercase tracking-[.12em] transition after:absolute after:bg-academy-blue after:transition",
+          "tap-spring relative inline-flex items-center gap-2 font-black uppercase tracking-[.12em] after:absolute after:bg-academy-blue after:transition",
           mobile
             ? "flex-col gap-1 px-2 py-2 text-[11px] after:inset-x-5 after:bottom-0 after:h-0.5"
             : "px-2 py-3 text-sm after:inset-x-2 after:bottom-1 after:h-0.5",

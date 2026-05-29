@@ -82,7 +82,7 @@ export function EventsBoard({ events }: { events: AcademyEvent[] }) {
             key={filter}
             type="button"
             onClick={() => setActiveFilter(filter)}
-            className={`shrink-0 border px-4 py-3 text-xs font-black uppercase tracking-[.16em] transition ${
+            className={`tap-spring shrink-0 border px-4 py-3 text-xs font-black uppercase tracking-[.16em] ${
               activeFilter === filter
                 ? "border-academy-blue bg-academy-blue text-[#05080c]"
                 : "border-academy-line/15 bg-transparent text-academy-foreground hover:border-academy-blue hover:text-academy-blue"

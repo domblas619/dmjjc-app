@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { AlertTriangle, ArrowUpRight } from "lucide-react";
 import type { TodaySchedule } from "@/lib/schedule";
 
@@ -33,8 +34,12 @@ export function TodayScheduleSection({ schedule }: { schedule: TodaySchedule }) 
             </p>
           </div>
         ) : schedule.items.length > 0 ? (
-          schedule.items.map((item) => (
-            <article key={item.id} className="border-b border-academy-line/10 py-4 last:border-b-0">
+          schedule.items.map((item, index) => (
+            <article
+              key={item.id}
+              className="schedule-reveal border-b border-academy-line/10 py-4 last:border-b-0"
+              style={{ "--row-index": index } as CSSProperties}
+            >
               <p className="font-display text-xl font-black uppercase leading-tight tracking-[.02em] text-academy-foreground sm:text-2xl">
                 <span className="text-academy-blue">{item.timeLabel}</span>
                 <span className="mx-2 text-academy-muted">|</span>
@@ -56,7 +61,7 @@ export function TodayScheduleSection({ schedule }: { schedule: TodaySchedule }) 
         href={schedule.sourceUrl}
         target="_blank"
         rel="noreferrer"
-        className="inline-flex min-h-12 items-center gap-2 border-b-2 border-academy-blue text-sm font-black uppercase tracking-[.16em] text-academy-blue transition hover:text-academy-foreground"
+        className="tap-spring inline-flex min-h-12 items-center gap-2 border-b-2 border-academy-blue text-sm font-black uppercase tracking-[.16em] text-academy-blue hover:text-academy-foreground"
       >
         Full Schedule
         <ArrowUpRight size={17} aria-hidden="true" />

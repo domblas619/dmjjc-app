@@ -18,7 +18,7 @@ function statusDisplayTitle(title: string) {
 
 export function TodayStatusBanner({ status, schedule }: { status: SiteStatus; schedule: TodaySchedule }) {
   return (
-    <section className="border-b border-white/10 bg-[var(--ink)]">
+    <section className="coastal-drift border-b border-white/10 bg-[var(--ink)]">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-5 py-4 md:flex-row md:items-center md:justify-between md:px-8">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <p className="text-[.68rem] font-black uppercase tracking-[.22em] text-academy-blue">Today's Status</p>
@@ -32,10 +32,10 @@ export function TodayStatusBanner({ status, schedule }: { status: SiteStatus; sc
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-black uppercase tracking-[.14em]">
-          <Link href="#today-classes" className="text-academy-blue transition hover:text-[var(--warm-white)]">
+          <Link href="#today-classes" className="tap-spring inline-flex text-academy-blue hover:text-[var(--warm-white)]">
             Today's Classes
           </Link>
-          <Link href="#important-dates" className="text-[#cbd6de] transition hover:text-academy-blue">
+          <Link href="#important-dates" className="tap-spring inline-flex text-[#cbd6de] hover:text-academy-blue">
             Closures
           </Link>
         </div>

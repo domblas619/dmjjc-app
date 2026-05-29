@@ -9,7 +9,7 @@ export function VideoCard({ video }: { video: Video }) {
 
   return (
     <article className="group overflow-hidden border border-academy-line/10 bg-academy-panel transition hover:border-academy-blue/70">
-      <Link href={`/videos/${video.slug}`} className="block">
+      <Link href={`/videos/${video.slug}`} className="tap-spring block">
         <div className="relative aspect-video overflow-hidden bg-academy-charcoal">
           {video.thumbnail ? (
             <Image src={video.thumbnail} alt="" fill className="object-cover opacity-75 transition group-hover:scale-105 group-hover:opacity-90" sizes="(min-width: 768px) 33vw, 100vw" />
@@ -35,7 +35,7 @@ export function VideoCard({ video }: { video: Video }) {
             href={video.ctaUrl}
             target="_blank"
             rel="noreferrer"
-            className="mt-5 inline-flex min-h-11 items-center gap-2 border-b-2 border-academy-blue text-sm font-black uppercase tracking-[.14em] text-academy-blue transition hover:text-academy-foreground"
+            className="tap-spring mt-5 inline-flex min-h-11 items-center gap-2 border-b-2 border-academy-blue text-sm font-black uppercase tracking-[.14em] text-academy-blue hover:text-academy-foreground"
           >
             {video.ctaLabel}
             <ArrowRight size={16} aria-hidden="true" />

@@ -86,7 +86,6 @@ a {
 .coastal-drift {
   isolation: isolate;
   overflow: hidden;
-  position: relative;
 }
 
 .coastal-drift::before {

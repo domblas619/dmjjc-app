@@ -3,7 +3,7 @@ import { Badge } from "@/components/badge";
 
 export function Hero() {
   return (
-    <section className="coastal-drift border-b border-white/10 bg-[var(--ink)]">
+    <section className="coastal-drift relative border-b border-white/10 bg-[var(--ink)]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(0,174,239,.20),transparent_26rem),linear-gradient(135deg,rgba(255,255,255,.04),transparent_45%)]" />
       <div className="relative mx-auto w-full max-w-6xl px-5 py-10 md:px-8 md:py-20">
         <div className="grid min-h-[560px] overflow-hidden border border-white/10 bg-[rgba(255,255,255,.025)] md:grid-cols-[1.18fr_.82fr]">

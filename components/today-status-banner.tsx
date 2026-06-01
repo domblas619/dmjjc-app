@@ -18,7 +18,7 @@ function statusDisplayTitle(title: string) {
 
 export function TodayStatusBanner({ status, schedule }: { status: SiteStatus; schedule: TodaySchedule }) {
   return (
-    <section className="coastal-drift border-b border-white/10 bg-[var(--ink)]">
+    <section className="coastal-drift relative border-b border-white/10 bg-[var(--ink)]">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-5 py-4 md:flex-row md:items-center md:justify-between md:px-8">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <p className="text-[.68rem] font-black uppercase tracking-[.22em] text-academy-blue">Today's Status</p>

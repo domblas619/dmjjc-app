@@ -55,7 +55,7 @@ export default async function HomePage() {
         id="important-dates"
         eyebrow="Schedule / Events"
         title="Important Dates"
-        description="Upcoming closures, events, and schedule changes."
+        description="Upcoming closures and events."
         tone="dark"
       >
         {upcomingEvents.length > 0 ? (
@@ -65,7 +65,7 @@ export default async function HomePage() {
         ) : (
           <EmptyState
             title="No important dates posted"
-            message="Upcoming events, closures, and schedule changes will appear here once they are published by the academy."
+            message="Upcoming closures and events will appear here once they are published by the academy."
           />
         )}
       </PageSection>

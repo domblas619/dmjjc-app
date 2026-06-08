@@ -4,7 +4,8 @@ import { sendPushToAll } from "@/lib/push/send";
 import type { EventType } from "@/lib/types";
 
 const timeZone = "America/Los_Angeles";
-const reminderHours = new Set([7, 12]);
+const morningWindow = { start: 5, end: 11 };
+const dayBeforeWindow = { start: 12, end: 18 };
 
 type ReminderEvent = {
   _id: string;
@@ -58,9 +59,7 @@ function addDays(dateKey: string, days: number) {
 function currentReminderWindow(date = new Date()): ReminderWindow | null {
   const now = zonedParts(date);
 
-  if (!reminderHours.has(now.hour)) return null;
-
-  if (now.hour === 12) {
+  if (now.hour >= dayBeforeWindow.start && now.hour <= dayBeforeWindow.end) {
     return {
       type: "day-before",
       targetDate: addDays(now.dateKey, 1),
@@ -68,11 +67,15 @@ function currentReminderWindow(date = new Date()): ReminderWindow | null {
     };
   }
 
-  return {
-    type: "morning-of",
-    targetDate: now.dateKey,
-    hour: 7
-  };
+  if (now.hour >= morningWindow.start && now.hour <= morningWindow.end) {
+    return {
+      type: "morning-of",
+      targetDate: now.dateKey,
+      hour: 7
+    };
+  }
+
+  return null;
 }
 
 function reminderTitle(event: ReminderEvent, window: ReminderWindow) {

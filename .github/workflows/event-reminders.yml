@@ -13,6 +13,6 @@ jobs:
     steps:
       - name: Call reminder endpoint
         run: |
-          curl --fail --show-error --silent \
+          curl --fail-with-body --show-error --silent \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             https://app.delmarjiujitsuclub.com/api/cron/reminders

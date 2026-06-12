@@ -62,6 +62,9 @@ type ParsedEvent = {
   dtstart?: string;
   dtend?: string;
   rrule?: string;
+  exdates: string[];
+  recurrenceId?: string;
+  status?: string;
 };
 
 type IcsProperty = {
@@ -130,7 +133,7 @@ function parseIcsEvents(ics: string): ParsedEvent[] {
 
   for (const line of lines) {
     if (line === "BEGIN:VEVENT") {
-      current = {};
+      current = { exdates: [] };
       continue;
     }
 
@@ -155,6 +158,9 @@ function parseIcsEvents(ics: string): ParsedEvent[] {
     if (property.name === "DTSTART") current.dtstart = property.value;
     if (property.name === "DTEND") current.dtend = property.value;
     if (property.name === "RRULE") current.rrule = property.value;
+    if (property.name === "EXDATE") current.exdates.push(...property.value.split(","));
+    if (property.name === "RECURRENCE-ID") current.recurrenceId = property.value;
+    if (property.name === "STATUS") current.status = property.value.toUpperCase();
   }
 
   return events;
@@ -168,6 +174,19 @@ function dateKeyFromIcs(value?: string) {
   }
 
   if (/^\d{8}T/.test(value)) {
+    if (value.endsWith("Z")) {
+      const date = new Date(
+        `${value.slice(0, 4)}-${value.slice(4, 6)}-${value.slice(6, 8)}T${value.slice(9, 11)}:${value.slice(11, 13)}:${value.slice(13, 15)}Z`
+      );
+
+      return new Intl.DateTimeFormat("en-CA", {
+        timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(date);
+    }
+
     return `${value.slice(0, 4)}-${value.slice(4, 6)}-${value.slice(6, 8)}`;
   }
 
@@ -256,17 +275,44 @@ function uniqueScheduleItems(items: TodayScheduleItem[]) {
   });
 }
 
-function happensToday(event: ParsedEvent, dateKey: string, dayCode: string) {
+function happensToday(
+  event: ParsedEvent,
+  dateKey: string,
+  dayCode: string,
+  overriddenOccurrences = new Set<string>()
+) {
+  if (event.status === "CANCELLED") return false;
+
   const startKey = dateKeyFromIcs(event.dtstart);
 
   if (event.rrule?.includes("FREQ=WEEKLY")) {
     const byDay = event.rrule.match(/BYDAY=([^;]+)/)?.[1]?.split(",") || [];
-    return startKey <= dateKey && byDay.includes(dayCode);
+    const until = event.rrule.match(/UNTIL=([^;]+)/)?.[1];
+    const untilKey = dateKeyFromIcs(until);
+    const isExcluded = event.exdates.some((value) => dateKeyFromIcs(value) === dateKey);
+    const isOverridden = Boolean(event.uid && overriddenOccurrences.has(`${event.uid}|${dateKey}`));
+
+    return (
+      startKey <= dateKey &&
+      (!untilKey || dateKey <= untilKey) &&
+      byDay.includes(dayCode) &&
+      !isExcluded &&
+      !isOverridden
+    );
   }
 
   const endKey = dateKeyFromIcs(event.dtend);
 
   return startKey === dateKey || Boolean(endKey && startKey <= dateKey && dateKey < endKey);
+}
+
+function overriddenOccurrenceKeys(events: ParsedEvent[]) {
+  return new Set(
+    events.flatMap((event) => {
+      const recurrenceKey = dateKeyFromIcs(event.recurrenceId);
+      return event.uid && recurrenceKey ? [`${event.uid}|${recurrenceKey}`] : [];
+    })
+  );
 }
 
 async function fetchIcs(url: string) {
@@ -304,7 +350,14 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
   ]);
 
   const closureItems = closureNotices
-    .filter((event) => happensToday(event, today.dateKey, today.dayCode))
+    .filter((event) =>
+      happensToday(
+        event,
+        today.dateKey,
+        today.dayCode,
+        overriddenOccurrenceKeys(closureNotices)
+      )
+    )
     .map((event) => ({
       id: event.uid || event.summary || "closure",
       title: event.summary || "Academy Closure",
@@ -318,7 +371,9 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
   const classItems = classResults
     .flatMap(({ calendar, events }) =>
       events
-        .filter((event) => happensToday(event, today.dateKey, today.dayCode))
+        .filter((event) =>
+          happensToday(event, today.dateKey, today.dayCode, overriddenOccurrenceKeys(events))
+        )
         .map((event) => {
           const startMinutes = minutesFromIcs(event.dtstart);
           const endMinutes = minutesFromIcs(event.dtend);
@@ -347,7 +402,14 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
 
   const notices = [
     ...eventNotices
-      .filter((event) => happensToday(event, today.dateKey, today.dayCode))
+      .filter((event) =>
+        happensToday(
+          event,
+          today.dateKey,
+          today.dayCode,
+          overriddenOccurrenceKeys(eventNotices)
+        )
+      )
       .map((event) => ({
         id: event.uid || event.summary || "event",
         title: event.summary || "Academy Event",

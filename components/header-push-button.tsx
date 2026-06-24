@@ -48,6 +48,13 @@ export function HeaderPushButton() {
       .catch(() => undefined);
   }, []);
 
+  useEffect(() => {
+    if (!message) return;
+
+    const timeout = window.setTimeout(() => setMessage(""), 4000);
+    return () => window.clearTimeout(timeout);
+  }, [message]);
+
   async function toggleNotifications() {
     if (loading) return;
 

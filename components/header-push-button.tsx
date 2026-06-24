@@ -112,7 +112,7 @@ export function HeaderPushButton() {
   }
 
   return (
-    <div className="relative">
+    <>
       <button
         type="button"
         onClick={toggleNotifications}
@@ -124,10 +124,13 @@ export function HeaderPushButton() {
         {enabled ? <BellOff size={19} aria-hidden="true" /> : <Bell size={19} aria-hidden="true" />}
       </button>
       {message && (
-        <div className="absolute right-0 top-[calc(100%+.55rem)] z-50 w-64 border border-academy-blue/30 bg-academy-black p-3 text-xs font-bold leading-5 text-academy-foreground shadow-2xl">
+        <div
+          role="status"
+          className="fixed right-5 top-[calc(env(safe-area-inset-top)+5.75rem)] z-[80] w-[min(20rem,calc(100vw-2.5rem))] border border-academy-blue/40 bg-academy-black p-3 text-xs font-bold leading-5 text-academy-foreground shadow-2xl md:right-8"
+        >
           {message}
         </div>
       )}
-    </div>
+    </>
   );
 }

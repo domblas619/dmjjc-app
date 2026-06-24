@@ -6,6 +6,7 @@ import {
   fallbackStatus,
   fallbackVideos
 } from "@/lib/fallback-data";
+import { isAnnouncementPublishedToday } from "@/lib/content-filters";
 import type { AcademyEvent, Announcement, SiteStatus, Video } from "@/lib/types";
 
 const imageProjection = `"image": image.asset->url`;
@@ -128,7 +129,15 @@ export async function getAnnouncements(): Promise<Announcement[]> {
     {},
     { next: { revalidate: 60, tags: [sanityCacheTags.announcements] } }
   );
-  return data || fallbackAnnouncements;
+  return [...(data || fallbackAnnouncements)].sort((a, b) => {
+    const todayPriority = Number(isAnnouncementPublishedToday(b)) - Number(isAnnouncementPublishedToday(a));
+    if (todayPriority !== 0) return todayPriority;
+
+    const pinnedPriority = Number(Boolean(b.isPinned)) - Number(Boolean(a.isPinned));
+    if (pinnedPriority !== 0) return pinnedPriority;
+
+    return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+  });
 }
 
 export async function getEvents(): Promise<AcademyEvent[]> {

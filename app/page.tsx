@@ -6,8 +6,9 @@ import { PageSection } from "@/components/page-section";
 import { PushNotificationCard } from "@/components/push-notification-card";
 import { TodayStatusBanner } from "@/components/today-status-banner";
 import { TodayScheduleSection } from "@/components/today-schedule";
+import { UrgentNoticeTicker } from "@/components/urgent-notice-ticker";
 import { VideoCard } from "@/components/video-card";
-import { getUpcomingEvents } from "@/lib/content-filters";
+import { getTodayAnnouncements, getUpcomingEvents } from "@/lib/content-filters";
 import { getTodaySchedule } from "@/lib/schedule";
 import { getAnnouncements, getEvents, getSiteStatus, getVideos } from "@/lib/sanity/queries";
 import type { SiteStatus } from "@/lib/types";
@@ -23,6 +24,7 @@ export default async function HomePage() {
     getVideos()
   ]);
   const upcomingEvents = getUpcomingEvents(events);
+  const todayAnnouncements = getTodayAnnouncements(announcements);
   const featuredVideo = videos.find((video) => video.isFeatured) || videos[0];
   const closureNotice = todaySchedule.notices.find((notice) => notice.type === "Closure");
   const effectiveStatus: SiteStatus =
@@ -37,6 +39,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <UrgentNoticeTicker announcements={todayAnnouncements} />
       <TodayStatusBanner status={effectiveStatus} schedule={todaySchedule} />
       <PageSection
         id="today-classes"

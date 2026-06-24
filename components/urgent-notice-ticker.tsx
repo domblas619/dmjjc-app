@@ -16,17 +16,17 @@ export function UrgentNoticeTicker({ announcements }: { announcements: Announcem
 
   return (
     <section className="border-b border-academy-blue/25 bg-academy-blue/[.09]">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-5 py-3 md:flex-row md:items-center md:justify-between md:px-8">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-5 py-2.5 md:flex-row md:items-center md:justify-between md:px-8">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
             <p className="text-[.68rem] font-black uppercase tracking-[.22em] text-academy-blue">Today's Notice</p>
-            <Badge tone={primary.category === "Closure" ? "red" : "amber"}>{primary.category}</Badge>
-            {extraCount > 0 && <Badge>{extraCount + 1} notices</Badge>}
+            <Badge tone={primary.category === "Closure" ? "red" : "amber"} className="px-2 py-0.5 text-[10px] tracking-[.12em]">{primary.category}</Badge>
+            {extraCount > 0 && <Badge className="hidden px-2 py-0.5 text-[10px] tracking-[.12em] sm:inline-flex">{extraCount + 1} notices</Badge>}
           </div>
-          <p className="mt-2 font-display text-lg font-black uppercase leading-tight text-academy-foreground md:text-xl">
+          <p className="mt-1 font-display text-base font-black uppercase leading-tight text-academy-foreground md:text-xl">
             {primary.title}
           </p>
-          <p className="mt-1 max-w-4xl text-sm font-semibold leading-6 text-academy-mist">
+          <p className="line-clamp-1 max-w-4xl text-sm font-semibold leading-6 text-academy-mist md:line-clamp-none">
             {excerpt(primary.body)}
           </p>
         </div>

@@ -3,20 +3,20 @@ import type { CSSProperties } from "react";
 import { AlertTriangle, ArrowUpRight } from "lucide-react";
 import type { TodaySchedule } from "@/lib/schedule";
 
-export function TodayScheduleSection({ schedule }: { schedule: TodaySchedule }) {
+export function TodayScheduleSection({ schedule, compact = false, showFullScheduleLink = true }: { schedule: TodaySchedule; compact?: boolean; showFullScheduleLink?: boolean }) {
   return (
-    <div className="space-y-6">
+    <div className={compact ? "space-y-4" : "space-y-6"}>
       {schedule.notices.length > 0 && (
-        <div className="border border-academy-blue bg-academy-blue/[.08] p-5">
+        <div className="border border-academy-blue bg-academy-blue/[.08] p-4">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="mt-1 shrink-0 text-academy-blue" size={20} aria-hidden="true" />
+            <AlertTriangle className="mt-1 shrink-0 text-academy-blue" size={18} aria-hidden="true" />
             <div>
-              <p className="text-xs font-black uppercase tracking-[.22em] text-academy-blue">Schedule Notice</p>
-              <div className="mt-3 space-y-3">
+              <p className="text-[.68rem] font-black uppercase tracking-[.18em] text-academy-blue">Schedule Notice</p>
+              <div className="mt-2 space-y-2">
                 {schedule.notices.map((notice) => (
                   <div key={notice.id}>
-                    <h3 className="font-display text-2xl font-black uppercase leading-none text-academy-foreground">{notice.title}</h3>
-                    {notice.description && <p className="mt-2 max-w-3xl text-base font-medium leading-7 text-academy-mist">{notice.description}</p>}
+                    <h3 className="font-display text-xl font-black uppercase leading-none text-academy-foreground">{notice.title}</h3>
+                    {notice.description && <p className="mt-2 max-w-3xl text-sm font-medium leading-6 text-academy-mist">{notice.description}</p>}
                   </div>
                 ))}
               </div>
@@ -37,10 +37,10 @@ export function TodayScheduleSection({ schedule }: { schedule: TodaySchedule }) 
           schedule.items.map((item, index) => (
             <article
               key={item.id}
-              className="schedule-reveal border-b border-academy-line/10 py-4 last:border-b-0"
+              className="schedule-reveal border-b border-academy-line/10 py-3 last:border-b-0"
               style={{ "--row-index": index } as CSSProperties}
             >
-              <p className="font-display text-xl font-black uppercase leading-tight tracking-[.02em] text-academy-foreground sm:text-2xl">
+              <p className="font-display text-lg font-black uppercase leading-tight tracking-[.02em] text-academy-foreground sm:text-xl">
                 <span className="text-academy-blue">{item.timeLabel}</span>
                 <span className="mx-2 text-academy-muted">|</span>
                 <span>{item.displayTitle}</span>
@@ -57,15 +57,17 @@ export function TodayScheduleSection({ schedule }: { schedule: TodaySchedule }) 
         )}
       </div>
 
-      <Link
-        href={schedule.sourceUrl}
-        target="_blank"
-        rel="noreferrer"
-        className="tap-spring inline-flex min-h-12 items-center gap-2 border-b-2 border-academy-blue text-sm font-black uppercase tracking-[.16em] text-academy-blue hover:text-academy-foreground"
-      >
-        Full Schedule
-        <ArrowUpRight size={17} aria-hidden="true" />
-      </Link>
+      {showFullScheduleLink && (
+        <Link
+          href={schedule.sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="tap-spring inline-flex min-h-12 items-center gap-2 border-b-2 border-academy-blue text-sm font-black uppercase tracking-[.16em] text-academy-blue hover:text-academy-foreground"
+        >
+          Full Schedule
+          <ArrowUpRight size={17} aria-hidden="true" />
+        </Link>
+      )}
     </div>
   );
 }

@@ -1,13 +1,9 @@
-import { AnnouncementCard } from "@/components/announcement-card";
 import { EmptyState } from "@/components/empty-state";
-import { EventCard } from "@/components/event-card";
-import { Hero } from "@/components/hero";
-import { PageSection } from "@/components/page-section";
-import { PushNotificationCard } from "@/components/push-notification-card";
+import { HomeSection } from "@/components/home-section";
+import { AnnouncementPreviewList, EventPreviewList, FeaturedVideoPreview } from "@/components/home-previews";
 import { TodayStatusBanner } from "@/components/today-status-banner";
 import { TodayScheduleSection } from "@/components/today-schedule";
 import { UrgentNoticeTicker } from "@/components/urgent-notice-ticker";
-import { VideoCard } from "@/components/video-card";
 import { getTodayAnnouncements, getUpcomingEvents } from "@/lib/content-filters";
 import { getTodaySchedule } from "@/lib/schedule";
 import { getAnnouncements, getEvents, getSiteStatus, getVideos } from "@/lib/sanity/queries";
@@ -41,65 +37,56 @@ export default async function HomePage() {
     <>
       <UrgentNoticeTicker announcements={todayAnnouncements} />
       <TodayStatusBanner status={effectiveStatus} schedule={todaySchedule} />
-      <PageSection
+      <HomeSection
         id="today-classes"
-        eyebrow="Today / Classes"
-        title="Today's Schedule"
-        description={`${todaySchedule.dateLabel}. Pulled from the live Google Calendars on the Del Mar Jiu-Jitsu Club schedule.`}
+        title="Today's Classes"
+        description={todaySchedule.dateLabel}
+        actionHref={todaySchedule.sourceUrl}
+        actionLabel="Full Schedule"
         tone="dark"
       >
-        <TodayScheduleSection schedule={todaySchedule} />
-      </PageSection>
-      <Hero />
-      <PageSection tone="warm">
-        <PushNotificationCard />
-      </PageSection>
-      <PageSection
+        <TodayScheduleSection schedule={todaySchedule} compact showFullScheduleLink={false} />
+      </HomeSection>
+      <HomeSection
         id="important-dates"
-        eyebrow="Schedule / Events"
         title="Important Dates"
-        description="Upcoming closures and events."
+        actionHref="/events"
+        actionLabel="All Events"
         tone="dark"
       >
         {upcomingEvents.length > 0 ? (
-          <div className="grid gap-4 lg:grid-cols-3">
-            {upcomingEvents.slice(0, 3).map((event) => <EventCard key={event.slug} event={event} />)}
-          </div>
+          <EventPreviewList events={upcomingEvents.slice(0, 3)} />
         ) : (
           <EmptyState
             title="No important dates posted"
             message="Upcoming closures and events will appear here once they are published by the academy."
           />
         )}
-      </PageSection>
-      <PageSection
-        eyebrow="Member Notices"
-        title="Academy Notes"
-        description="The latest from Del Mar Jiu-Jitsu Club."
+      </HomeSection>
+      <HomeSection
+        title="Member Notices"
+        actionHref="/updates"
+        actionLabel="All Updates"
         tone="warm"
       >
         {announcements.length > 0 ? (
-          <div className="grid gap-4 md:grid-cols-3">
-            {announcements.slice(0, 3).map((announcement) => <AnnouncementCard key={announcement.slug} announcement={announcement} />)}
-          </div>
+          <AnnouncementPreviewList announcements={announcements.slice(0, 3)} />
         ) : (
           <EmptyState
             title="No academy notes posted"
             message="Announcements and member notices will appear here once they are published by the academy."
           />
         )}
-      </PageSection>
+      </HomeSection>
       {featuredVideo && (
-        <PageSection
-          eyebrow="Study / Movement"
+        <HomeSection
           title="Training Resource"
-          description="Featured movement, drills, and study material for students."
+          actionHref="/videos"
+          actionLabel="All Videos"
           tone="dark"
         >
-          <div className="max-w-3xl">
-            <VideoCard video={featuredVideo} />
-          </div>
-        </PageSection>
+          <FeaturedVideoPreview video={featuredVideo} />
+        </HomeSection>
       )}
     </>
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { HeaderPushButton } from "@/components/header-push-button";
 import { NavLinks } from "@/components/nav-links";
 
 export function Header() {
@@ -22,10 +23,13 @@ export function Header() {
             <span className="mt-1 block text-xs font-bold uppercase tracking-[.18em] text-academy-blue">Community Hub</span>
           </span>
         </Link>
-        <div className="hidden items-center gap-2 md:flex">
-          <nav className="flex items-center gap-2" aria-label="Primary navigation">
-            <NavLinks />
-          </nav>
+        <div className="flex items-center gap-2">
+          <HeaderPushButton />
+          <div className="hidden items-center gap-2 md:flex">
+            <nav className="flex items-center gap-2" aria-label="Primary navigation">
+              <NavLinks />
+            </nav>
+          </div>
         </div>
       </div>
     </header>

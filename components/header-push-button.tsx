@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Bell, BellOff } from "lucide-react";
 
 const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
@@ -20,12 +21,15 @@ async function getRegistration() {
 }
 
 export function HeaderPushButton() {
+  const [mounted, setMounted] = useState(false);
   const [supported, setSupported] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    setMounted(true);
+
     const isSupported =
       typeof window !== "undefined" &&
       "Notification" in window &&
@@ -35,18 +39,19 @@ export function HeaderPushButton() {
     setSupported(isSupported);
 
     if (!isSupported) {
-      setMessage("Push alerts are available after adding the app to your Home Screen on supported browsers.");
       return;
     }
 
     getRegistration()
       .then((registration) => registration?.pushManager.getSubscription())
       .then((subscription) => setEnabled(Boolean(subscription)))
-      .catch(() => setMessage("Alert status could not be checked."));
+      .catch(() => undefined);
   }, []);
 
   async function toggleNotifications() {
     if (loading) return;
+
+    setMessage("Checking urgent alert settings...");
 
     if (!supported) {
       setMessage("Push alerts are not available in this browser yet.");
@@ -111,6 +116,19 @@ export function HeaderPushButton() {
     }
   }
 
+  const toast =
+    mounted && message
+      ? createPortal(
+          <div
+            role="status"
+            className="fixed right-5 top-[calc(env(safe-area-inset-top)+5.75rem)] z-[9999] w-[min(20rem,calc(100vw-2.5rem))] border border-academy-blue/40 bg-academy-black p-3 text-xs font-bold leading-5 text-academy-foreground shadow-2xl md:right-8"
+          >
+            {message}
+          </div>,
+          document.body
+        )
+      : null;
+
   return (
     <>
       <button
@@ -123,14 +141,7 @@ export function HeaderPushButton() {
       >
         {enabled ? <BellOff size={19} aria-hidden="true" /> : <Bell size={19} aria-hidden="true" />}
       </button>
-      {message && (
-        <div
-          role="status"
-          className="fixed right-5 top-[calc(env(safe-area-inset-top)+5.75rem)] z-[80] w-[min(20rem,calc(100vw-2.5rem))] border border-academy-blue/40 bg-academy-black p-3 text-xs font-bold leading-5 text-academy-foreground shadow-2xl md:right-8"
-        >
-          {message}
-        </div>
-      )}
+      {toast}
     </>
   );
 }

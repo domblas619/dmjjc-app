@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, PlayCircle } from "lucide-react";
 import { Badge } from "@/components/badge";
+import { truncateText } from "@/lib/video-embed";
 import type { Video } from "@/lib/types";
 
 export function VideoCard({ video }: { video: Video }) {
   const showCta = video.showCta ?? Boolean(video.ctaLabel && video.ctaUrl);
+  const shouldTruncate = video.description.length > 150;
 
   return (
     <article className="group overflow-hidden border border-academy-line/10 bg-academy-panel transition hover:border-academy-blue/70">
@@ -29,7 +31,16 @@ export function VideoCard({ video }: { video: Video }) {
         <Link href={`/videos/${video.slug}`} className="block">
           <h3 className="mt-4 font-display text-2xl font-black uppercase leading-[.95] text-academy-foreground transition group-hover:text-academy-blue sm:text-3xl">{video.title}</h3>
         </Link>
-        <p className="mt-3 text-base font-medium leading-7 text-academy-mist">{video.description}</p>
+        <p className="mt-3 text-base font-medium leading-7 text-academy-mist">{truncateText(video.description)}</p>
+        {shouldTruncate && (
+          <Link
+            href={`/videos/${video.slug}`}
+            className="tap-spring mt-3 inline-flex min-h-10 items-center gap-2 border-b-2 border-academy-blue text-xs font-black uppercase tracking-[.14em] text-academy-blue hover:text-academy-foreground"
+          >
+            Read more
+            <ArrowRight size={15} aria-hidden="true" />
+          </Link>
+        )}
         {showCta && video.ctaLabel && video.ctaUrl && (
           <Link
             href={video.ctaUrl}

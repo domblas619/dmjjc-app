@@ -6,6 +6,7 @@ import { Badge } from "@/components/badge";
 import { PageSection } from "@/components/page-section";
 import { VideoCard } from "@/components/video-card";
 import { getVideoBySlug, getVideos } from "@/lib/sanity/queries";
+import { getEmbeddableVideoUrl } from "@/lib/video-embed";
 
 type VideoPageProps = {
   params: Promise<{ slug: string }>;
@@ -25,6 +26,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
   if (!video) notFound();
   const related = videos.filter((item) => item.slug !== video.slug && item.category === video.category).slice(0, 3);
   const showCta = video.showCta ?? Boolean(video.ctaLabel && video.ctaUrl);
+  const embedUrl = getEmbeddableVideoUrl(video.videoUrl);
 
   return (
     <>
@@ -33,9 +35,10 @@ export default async function VideoPage({ params }: VideoPageProps) {
           <div className="aspect-video bg-black">
             <iframe
               className="size-full"
-              src={video.videoUrl}
+              src={embedUrl}
               title={video.title}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             />
           </div>

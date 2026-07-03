@@ -123,7 +123,11 @@ export async function getSiteStatus(): Promise<SiteStatus> {
 export async function getAnnouncements(): Promise<Announcement[]> {
   if (!hasSanityConfig) return fallbackAnnouncements;
   const data = await client.fetch<Announcement[]>(
-    `*[_type == "announcement" && (!defined(expiresAt) || expiresAt > now())] | order(coalesce(isPinned, false) desc, publishedAt desc){
+    `*[
+      _type == "announcement" &&
+      publishedAt <= now() &&
+      (!defined(expiresAt) || expiresAt > now())
+    ] | order(coalesce(isPinned, false) desc, publishedAt desc){
       title, "slug": slug.current, publishedAt, category, body, isFeatured, isPinned, expiresAt, showCta, ctaLabel, ctaUrl, ${imageProjection}
     }`,
     {},

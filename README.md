@@ -149,6 +149,7 @@ Use a Sanity webhook projection like:
 ```groq
 {
   "_type": _type,
+  "_id": _id,
   "title": title,
   "body": body,
   "message": message,
@@ -157,11 +158,14 @@ Use a Sanity webhook projection like:
   "eventType": eventType,
   "statusType": statusType,
   "isPinned": isPinned,
-  "sendPushAlert": sendPushAlert
+  "sendPushAlert": sendPushAlert,
+  "publishedAt": publishedAt
 }
 ```
 
 The webhook route sends notifications for content with `Send Push Alert` enabled. It also sends automatically for urgent content: closed/modified/event-day status updates, closure/holiday/special-schedule events, pinned announcements, and closure announcements.
+
+For announcements, `Published At` controls when the item becomes visible and when its push alert is eligible to send. To schedule an announcement, add it to a Sanity Scheduled Release instead of publishing it immediately. Sanity triggers the publish webhook when that release goes live, so the alert is sent at the actual release time. Redis deduplication prevents later republishes from sending the same announcement twice.
 
 Event and closure reminders are sent by GitHub Actions calling `/api/cron/reminders`:
 

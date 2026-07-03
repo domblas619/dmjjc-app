@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { claimReminderSend } from "@/lib/push/store";
 import { sendPushToAll } from "@/lib/push/send";
 import type { PushPayload } from "@/lib/push/types";
 
@@ -59,10 +60,31 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Invalid Sanity webhook payload." }, { status: 400 });
   }
 
-  const payload = toPushPayload(document as Record<string, unknown>);
+  const sanityDocument = document as Record<string, unknown>;
+  const payload = toPushPayload(sanityDocument);
 
   if (!payload) {
     return NextResponse.json({ ok: true, skipped: true, reason: "Document is not urgent." });
+  }
+
+  if (sanityDocument._type === "announcement") {
+    const publishedAt = String(sanityDocument.publishedAt || "");
+    const publishTime = Date.parse(publishedAt);
+
+    if (Number.isFinite(publishTime) && publishTime > Date.now()) {
+      return NextResponse.json({
+        ok: true,
+        skipped: true,
+        reason: "Announcement is scheduled for a future publish time."
+      });
+    }
+
+    const documentId = String(sanityDocument._id || sanityDocument.slug || sanityDocument.title || "announcement");
+    const claim = await claimReminderSend(`announcement-publish:${documentId}:${publishedAt}`);
+
+    if (!claim.claimed) {
+      return NextResponse.json({ ok: true, skipped: true, reason: claim.reason || "Alert already sent." });
+    }
   }
 
   const result = await sendPushToAll(payload);

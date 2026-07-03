@@ -7,6 +7,7 @@ import {
   fallbackVideos
 } from "@/lib/fallback-data";
 import { isAnnouncementPublishedToday } from "@/lib/content-filters";
+import { announcementPublishDate } from "@/lib/announcement-schedule";
 import type { AcademyEvent, Announcement, SiteStatus, Video } from "@/lib/types";
 
 const imageProjection = `"image": image.asset->url`;
@@ -123,17 +124,26 @@ export async function getSiteStatus(): Promise<SiteStatus> {
 export async function getAnnouncements(): Promise<Announcement[]> {
   if (!hasSanityConfig) return fallbackAnnouncements;
   const data = await client.fetch<Announcement[]>(
-    `*[
-      _type == "announcement" &&
-      publishedAt <= now() &&
-      (!defined(expiresAt) || expiresAt > now())
-    ] | order(coalesce(isPinned, false) desc, publishedAt desc){
-      title, "slug": slug.current, publishedAt, category, body, isFeatured, isPinned, expiresAt, showCta, ctaLabel, ctaUrl, ${imageProjection}
+    `*[_type == "announcement"] | order(coalesce(isPinned, false) desc, publishedAt desc){
+      title, "slug": slug.current, publishedAt, scheduleForLater, scheduleDate, scheduleTime, scheduleTimeZone,
+      category, body, isFeatured, isPinned, expiresAt, showCta, ctaLabel, ctaUrl, ${imageProjection}
     }`,
     {},
     { next: { revalidate: 60, tags: [sanityCacheTags.announcements] } }
   );
-  return [...(data || fallbackAnnouncements)].sort((a, b) => {
+  const now = new Date();
+  const visibleAnnouncements = (data || fallbackAnnouncements)
+    .map((announcement) => ({
+      ...announcement,
+      publishedAt: announcementPublishDate(announcement).toISOString()
+    }))
+    .filter((announcement) => {
+      const publishDate = new Date(announcement.publishedAt);
+      const expirationDate = announcement.expiresAt ? new Date(announcement.expiresAt) : null;
+      return publishDate <= now && (!expirationDate || expirationDate > now);
+    });
+
+  return visibleAnnouncements.sort((a, b) => {
     const todayPriority = Number(isAnnouncementPublishedToday(b)) - Number(isAnnouncementPublishedToday(a));
     if (todayPriority !== 0) return todayPriority;
 

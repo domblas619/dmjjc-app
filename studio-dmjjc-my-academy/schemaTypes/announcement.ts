@@ -15,11 +15,63 @@ export const announcement = defineType({
     }),
     defineField({
       name: 'publishedAt',
-      title: 'Published At',
+      title: 'Publish Immediately At',
       type: 'datetime',
       description:
-        'Controls when this announcement appears and when its push alert sends. Future times are checked about every five minutes.',
-      validation: (Rule) => Rule.required(),
+        'Used for immediate posts. For a future post, turn on Schedule for Later below.',
+      initialValue: () => new Date().toISOString(),
+      hidden: ({document}) => document?.scheduleForLater === true,
+      validation: (Rule) => Rule.custom((value, context) =>
+        context.document?.scheduleForLater || value ? true : 'Required for immediate posts',
+      ),
+    }),
+    defineField({
+      name: 'scheduleForLater',
+      title: 'Schedule for Later',
+      type: 'boolean',
+      description: 'Publish this announcement and send its push alert at a future date and time.',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'scheduleDate',
+      title: 'Publish Date',
+      type: 'date',
+      hidden: ({document}) => document?.scheduleForLater !== true,
+      validation: (Rule) => Rule.custom((value, context) =>
+        !context.document?.scheduleForLater || value ? true : 'Choose a publish date',
+      ),
+    }),
+    defineField({
+      name: 'scheduleTime',
+      title: 'Publish Time',
+      type: 'string',
+      description: 'Use 24-hour time, such as 06:00 for 6:00 AM or 18:00 for 6:00 PM.',
+      placeholder: '06:00',
+      hidden: ({document}) => document?.scheduleForLater !== true,
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (!context.document?.scheduleForLater) return true
+          if (!value) return 'Enter a publish time'
+          return /^([01]\d|2[0-3]):[0-5]\d$/.test(String(value)) || 'Use HH:MM in 24-hour time'
+        }),
+    }),
+    defineField({
+      name: 'scheduleTimeZone',
+      title: 'Scheduling Time Zone',
+      type: 'string',
+      description: 'Pacific Time is the academy’s local time. Hawaii Time follows your current local clock.',
+      options: {
+        list: [
+          {title: 'Pacific Time — Del Mar', value: 'America/Los_Angeles'},
+          {title: 'Hawaii Time', value: 'Pacific/Honolulu'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'America/Los_Angeles',
+      hidden: ({document}) => document?.scheduleForLater !== true,
+      validation: (Rule) => Rule.custom((value, context) =>
+        !context.document?.scheduleForLater || value ? true : 'Choose a scheduling time zone',
+      ),
     }),
     defineField({
       name: 'category',

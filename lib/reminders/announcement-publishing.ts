@@ -1,42 +1,60 @@
 import { client, hasSanityConfig } from "@/lib/sanity/client";
 import { claimReminderSend } from "@/lib/push/store";
 import { sendPushToAll } from "@/lib/push/send";
+import { announcementPublishDate } from "@/lib/announcement-schedule";
+import type { Announcement } from "@/lib/types";
 
 const schedulerLaunch = "2026-07-03T00:00:00-10:00";
 
-type ScheduledAnnouncement = {
+type ScheduledAnnouncement = Pick<
+  Announcement,
+  | "title"
+  | "body"
+  | "publishedAt"
+  | "scheduleForLater"
+  | "scheduleDate"
+  | "scheduleTime"
+  | "scheduleTimeZone"
+> & {
   _id: string;
-  title: string;
-  body: string;
-  publishedAt: string;
 };
 
 async function getDueAnnouncements(date: Date) {
   if (!hasSanityConfig) return [];
 
-  const dueBefore = date.toISOString();
-  const catchUpAfter = new Date(date.getTime() - 24 * 60 * 60 * 1000).toISOString();
-
   return client.fetch<ScheduledAnnouncement[]>(
     `*[
       _type == "announcement" &&
-      publishedAt >= $schedulerLaunch &&
-      publishedAt > $catchUpAfter &&
-      publishedAt <= $dueBefore &&
       (sendPushAlert == true || isPinned == true || category == "Closure")
-    ] | order(publishedAt asc){
+    ]{
       _id,
       title,
       body,
-      publishedAt
+      publishedAt,
+      scheduleForLater,
+      scheduleDate,
+      scheduleTime,
+      scheduleTimeZone
     }`,
-    { schedulerLaunch, catchUpAfter, dueBefore },
+    {},
     { cache: "no-store" }
   );
 }
 
 export async function sendDueAnnouncementAlerts(date = new Date()) {
-  const announcements = await getDueAnnouncements(date);
+  const schedulerStart = new Date(schedulerLaunch);
+  const catchUpAfter = new Date(date.getTime() - 24 * 60 * 60 * 1000);
+  const announcements = (await getDueAnnouncements(date))
+    .map((announcement) => ({
+      ...announcement,
+      effectivePublishDate: announcementPublishDate(announcement)
+    }))
+    .filter(({ effectivePublishDate }) =>
+      effectivePublishDate >= schedulerStart &&
+      effectivePublishDate > catchUpAfter &&
+      effectivePublishDate <= date
+    )
+    .sort((a, b) => a.effectivePublishDate.getTime() - b.effectivePublishDate.getTime());
   let sent = 0;
   let failed = 0;
   let alreadySent = 0;
@@ -44,7 +62,7 @@ export async function sendDueAnnouncementAlerts(date = new Date()) {
 
   for (const announcement of announcements) {
     const claim = await claimReminderSend(
-      `announcement-publish:${announcement._id}:${announcement.publishedAt}`
+      `announcement-publish:${announcement._id}:${announcement.effectivePublishDate.toISOString()}`
     );
 
     if (!claim.claimed) {

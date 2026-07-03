@@ -35,6 +35,10 @@ export type Announcement = {
   title: string;
   slug: string;
   publishedAt: string;
+  scheduleForLater?: boolean;
+  scheduleDate?: string;
+  scheduleTime?: string;
+  scheduleTimeZone?: "America/Los_Angeles" | "Pacific/Honolulu";
   category: AnnouncementCategory;
   body: string;
   image?: string;

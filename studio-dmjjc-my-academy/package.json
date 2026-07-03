@@ -11,9 +11,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@sanity/vision": "3.68.0",
-    "sanity": "3.68.0",
-    "styled-components": "6.1.15"
+    "@sanity/vision": "^6.3.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sanity": "^6.3.0",
+    "styled-components": "^6.3.12"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^4.0.0",

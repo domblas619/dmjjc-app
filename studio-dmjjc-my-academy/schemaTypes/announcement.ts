@@ -18,7 +18,7 @@ export const announcement = defineType({
       title: 'Published At',
       type: 'datetime',
       description:
-        'Controls when this announcement appears. Use a Sanity Scheduled Release to publish and notify at a future time.',
+        'Controls when this announcement appears and when its push alert sends. Future times are checked about every five minutes.',
       validation: (Rule) => Rule.required(),
     }),
     defineField({

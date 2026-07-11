@@ -22,7 +22,8 @@ export async function generateMetadata({ params }: VideoPageProps): Promise<Meta
 
 export default async function VideoPage({ params }: VideoPageProps) {
   const { slug } = await params;
-  const [video, videos] = await Promise.all([getVideoBySlug(slug), getVideos()]);
+  const videos = await getVideos();
+  const video = videos.find((item) => item.slug === slug);
   if (!video) notFound();
   const related = videos.filter((item) => item.slug !== video.slug && item.category === video.category).slice(0, 3);
   const showCta = video.showCta ?? Boolean(video.ctaLabel && video.ctaUrl);

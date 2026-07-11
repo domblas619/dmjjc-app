@@ -1,5 +1,4 @@
 import { createClient } from "@sanity/client";
-import { createImageUrlBuilder } from "@sanity/image-url";
 
 const defaultProjectId = "z48r70x2";
 const defaultDataset = "production";
@@ -23,9 +22,3 @@ export const urgentClient = client.withConfig({
   useCdn: false,
   perspective: "published"
 });
-
-const builder = createImageUrlBuilder(client);
-
-export function urlFor(source: unknown) {
-  return builder.image(source as never);
-}

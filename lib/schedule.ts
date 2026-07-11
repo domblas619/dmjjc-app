@@ -348,16 +348,11 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
     getCalendarEvents(noticeCalendars.events),
     getCalendarEvents(noticeCalendars.closures)
   ]);
+  const eventNoticeOverrides = overriddenOccurrenceKeys(eventNotices);
+  const closureNoticeOverrides = overriddenOccurrenceKeys(closureNotices);
 
   const closureItems = closureNotices
-    .filter((event) =>
-      happensToday(
-        event,
-        today.dateKey,
-        today.dayCode,
-        overriddenOccurrenceKeys(closureNotices)
-      )
-    )
+    .filter((event) => happensToday(event, today.dateKey, today.dayCode, closureNoticeOverrides))
     .map((event) => ({
       id: event.uid || event.summary || "closure",
       title: event.summary || "Academy Closure",
@@ -369,10 +364,12 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
   const hasClosure = closureItems.length > 0;
 
   const classItems = classResults
-    .flatMap(({ calendar, events }) =>
-      events
+    .flatMap(({ calendar, events }) => {
+      const overrides = overriddenOccurrenceKeys(events);
+
+      return events
         .filter((event) =>
-          happensToday(event, today.dateKey, today.dayCode, overriddenOccurrenceKeys(events))
+          happensToday(event, today.dateKey, today.dayCode, overrides)
         )
         .map((event) => {
           const startMinutes = minutesFromIcs(event.dtstart);
@@ -390,8 +387,8 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
             startMinutes,
             endMinutes
           };
-        })
-    )
+        });
+    })
     .filter((item) => item.endMinutes > today.currentMinutes);
 
   const items = hasClosure
@@ -402,14 +399,7 @@ export async function getTodaySchedule(): Promise<TodaySchedule> {
 
   const notices = [
     ...eventNotices
-      .filter((event) =>
-        happensToday(
-          event,
-          today.dateKey,
-          today.dayCode,
-          overriddenOccurrenceKeys(eventNotices)
-        )
-      )
+      .filter((event) => happensToday(event, today.dateKey, today.dayCode, eventNoticeOverrides))
       .map((event) => ({
         id: event.uid || event.summary || "event",
         title: event.summary || "Academy Event",

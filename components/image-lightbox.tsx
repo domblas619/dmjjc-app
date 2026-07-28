@@ -43,22 +43,30 @@ export function ImageLightbox({ src, alt, children }: ImageLightboxProps) {
 
       {open && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#05070a]/95 p-4 backdrop-blur-md sm:p-8"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#05070a]/96 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[calc(max(1rem,env(safe-area-inset-top))+4.25rem)] backdrop-blur-md sm:p-8 sm:pt-[calc(max(1.5rem,env(safe-area-inset-top))+4.75rem)]"
           role="dialog"
           aria-modal="true"
           aria-label={alt}
           onClick={() => setOpen(false)}
         >
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="tap-spring absolute right-4 top-[max(1rem,env(safe-area-inset-top))] grid size-12 place-items-center border border-academy-line/20 bg-academy-ink/80 text-academy-foreground hover:border-academy-blue hover:text-academy-blue"
-            aria-label="Close image"
-          >
-            <X size={22} aria-hidden="true" />
-          </button>
+          <div className="absolute inset-x-0 top-0 border-b border-academy-line/15 bg-[#05070a]/90 px-4 pb-3 pt-[calc(max(1rem,env(safe-area-inset-top))+.75rem)] shadow-2xl shadow-black/40">
+            <div className="mx-auto flex max-w-5xl items-center justify-between gap-4">
+              <p className="min-w-0 truncate text-xs font-black uppercase tracking-[.16em] text-academy-muted">
+                {alt}
+              </p>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="tap-spring inline-flex min-h-11 shrink-0 items-center gap-2 border border-academy-blue bg-academy-blue px-4 text-xs font-black uppercase tracking-[.14em] text-[#05070a] shadow-lg shadow-academy-blue/20 hover:bg-academy-foreground hover:text-[#05070a]"
+                aria-label="Close image"
+              >
+                Close
+                <X size={18} strokeWidth={3} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
           <div
-            className="relative h-[min(78vh,52rem)] w-full max-w-5xl overflow-hidden border border-academy-line/15 bg-academy-black shadow-2xl shadow-black/60"
+            className="relative h-[min(74vh,52rem)] w-full max-w-5xl overflow-hidden border border-academy-line/15 bg-academy-black shadow-2xl shadow-black/60"
             onClick={(event) => event.stopPropagation()}
           >
             <Image

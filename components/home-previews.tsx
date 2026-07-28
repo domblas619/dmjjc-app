@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ExternalLink, PlayCircle } from "lucide-react";
 import { Badge } from "@/components/badge";
+import { ImageLightbox } from "@/components/image-lightbox";
 import { formatDate } from "@/lib/format";
 import { truncateText } from "@/lib/video-embed";
 import type { AcademyEvent, Announcement, Video } from "@/lib/types";
@@ -57,15 +58,17 @@ export function AnnouncementPreviewList({ announcements }: { announcements: Anno
       {announcements.map((announcement) => (
         <article key={announcement.slug} className={`grid gap-4 py-4 ${announcement.image ? "sm:grid-cols-[7rem_1fr] sm:items-start" : ""}`}>
           {announcement.image && (
-            <div className="relative aspect-[4/3] overflow-hidden border border-academy-line/10 bg-academy-charcoal">
-              <Image
-                src={announcement.image}
-                alt=""
-                fill
-                sizes="(min-width: 640px) 7rem, 100vw"
-                className="object-cover"
-              />
-            </div>
+            <ImageLightbox src={announcement.image} alt={announcement.title}>
+              <div className="relative aspect-[4/3] overflow-hidden border border-academy-line/10 bg-academy-charcoal">
+                <Image
+                  src={announcement.image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 640px) 7rem, 100vw"
+                  className="object-cover transition duration-500 group-hover/image:scale-[1.03]"
+                />
+              </div>
+            </ImageLightbox>
           )}
           <div>
             <div className="flex flex-wrap items-center gap-2">

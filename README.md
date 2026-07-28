@@ -159,13 +159,17 @@ Use a Sanity webhook projection like:
   "statusType": statusType,
   "isPinned": isPinned,
   "sendPushAlert": sendPushAlert,
-  "publishedAt": publishedAt
+  "publishedAt": publishedAt,
+  "scheduleForLater": scheduleForLater,
+  "scheduleDate": scheduleDate,
+  "scheduleTime": scheduleTime,
+  "scheduleTimeZone": scheduleTimeZone
 }
 ```
 
 The webhook route sends notifications for content with `Send Push Alert` enabled. It also sends automatically for urgent content: closed/modified/event-day status updates, closure/holiday/special-schedule events, pinned announcements, and closure announcements.
 
-For announcements, turn on `Schedule for Later`, choose the publish date and time, and select either Pacific Time (Del Mar) or Hawaii Time. It is safe to publish the Sanity document immediately: the app stays hidden and the alert is held until the calculated schedule time. The announcement webhook defers alerts to `/api/cron/announcements`, and GitHub Actions checks that endpoint every five minutes. A 24-hour catch-up window covers delayed workflow runs, while Redis deduplication prevents duplicate alerts.
+Publish-now announcements send immediately from the Sanity webhook. For announcements that should go out later, turn on `Schedule for Later`, choose the publish date and time, and select either Pacific Time (Del Mar) or Hawaii Time. It is safe to publish the Sanity document immediately: the app stays hidden and the alert is held until the calculated schedule time. Scheduled announcement alerts are handled by `/api/cron/announcements`, and GitHub Actions checks that endpoint every five minutes. A 24-hour catch-up window covers delayed workflow runs, while Redis deduplication prevents duplicate alerts between the webhook and scheduler.
 
 Event and closure reminders are sent by GitHub Actions calling `/api/cron/reminders`:
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ExternalLink, PlayCircle } from "lucide-react";
 import { Badge } from "@/components/badge";
@@ -54,26 +55,39 @@ export function AnnouncementPreviewList({ announcements }: { announcements: Anno
   return (
     <div className="divide-y divide-academy-line/10 border-y border-academy-line/10">
       {announcements.map((announcement) => (
-        <article key={announcement.slug} className="py-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <h3 className="font-display text-xl font-black uppercase leading-none text-academy-foreground md:text-2xl">{announcement.title}</h3>
-            {announcement.isPinned && <Badge tone="amber" className="px-2 py-0.5 text-[10px] tracking-[.12em]">Pinned</Badge>}
-          </div>
-          <p className="mt-2 text-xs font-black uppercase tracking-[.12em] text-academy-muted">
-            {announcement.category} · {formatDate(announcement.publishedAt)}
-          </p>
-          <p className="mt-2 text-sm font-medium leading-6 text-academy-mist">{truncateText(announcement.body, 150)}</p>
-          {(announcement.showCta ?? Boolean(announcement.ctaLabel && announcement.ctaUrl)) && announcement.ctaLabel && announcement.ctaUrl && (
-            <Link
-              href={announcement.ctaUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="tap-spring mt-3 inline-flex min-h-9 items-center gap-2 border-b border-academy-blue text-xs font-black uppercase tracking-[.14em] text-academy-blue hover:text-academy-foreground"
-            >
-              {announcement.ctaLabel}
-              <ArrowRight size={14} aria-hidden="true" />
-            </Link>
+        <article key={announcement.slug} className={`grid gap-4 py-4 ${announcement.image ? "sm:grid-cols-[7rem_1fr] sm:items-start" : ""}`}>
+          {announcement.image && (
+            <div className="relative aspect-[4/3] overflow-hidden border border-academy-line/10 bg-academy-charcoal">
+              <Image
+                src={announcement.image}
+                alt=""
+                fill
+                sizes="(min-width: 640px) 7rem, 100vw"
+                className="object-cover"
+              />
+            </div>
           )}
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <h3 className="font-display text-xl font-black uppercase leading-none text-academy-foreground md:text-2xl">{announcement.title}</h3>
+              {announcement.isPinned && <Badge tone="amber" className="px-2 py-0.5 text-[10px] tracking-[.12em]">Pinned</Badge>}
+            </div>
+            <p className="mt-2 text-xs font-black uppercase tracking-[.12em] text-academy-muted">
+              {announcement.category} · {formatDate(announcement.publishedAt)}
+            </p>
+            <p className="mt-2 text-sm font-medium leading-6 text-academy-mist">{truncateText(announcement.body, 150)}</p>
+            {(announcement.showCta ?? Boolean(announcement.ctaLabel && announcement.ctaUrl)) && announcement.ctaLabel && announcement.ctaUrl && (
+              <Link
+                href={announcement.ctaUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="tap-spring mt-3 inline-flex min-h-9 items-center gap-2 border-b border-academy-blue text-xs font-black uppercase tracking-[.14em] text-academy-blue hover:text-academy-foreground"
+              >
+                {announcement.ctaLabel}
+                <ArrowRight size={14} aria-hidden="true" />
+              </Link>
+            )}
+          </div>
         </article>
       ))}
     </div>

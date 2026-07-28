@@ -19,6 +19,10 @@ type ScheduledAnnouncement = Pick<
   _id: string;
 };
 
+export function announcementReminderId(announcementId: string, effectivePublishDate: Date) {
+  return `announcement-publish:${announcementId}:${effectivePublishDate.toISOString()}`;
+}
+
 async function getDueAnnouncements(date: Date) {
   if (!hasSanityConfig) return [];
 
@@ -61,9 +65,7 @@ export async function sendDueAnnouncementAlerts(date = new Date()) {
   const results = [];
 
   for (const announcement of announcements) {
-    const claim = await claimReminderSend(
-      `announcement-publish:${announcement._id}:${announcement.effectivePublishDate.toISOString()}`
-    );
+    const claim = await claimReminderSend(announcementReminderId(announcement._id, announcement.effectivePublishDate));
 
     if (!claim.claimed) {
       alreadySent += claim.reason ? 0 : 1;

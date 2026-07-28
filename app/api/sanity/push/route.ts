@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { sendPushToAll } from "@/lib/push/send";
+import { claimReminderSend } from "@/lib/push/store";
+import { announcementReminderId } from "@/lib/reminders/announcement-publishing";
+import { client, hasSanityConfig } from "@/lib/sanity/client";
 import type { PushPayload } from "@/lib/push/types";
 
 export const runtime = "nodejs";
@@ -47,6 +50,31 @@ function toPushPayload(document: Record<string, unknown>): PushPayload | null {
   return null;
 }
 
+async function getPublishedAnnouncement(document: Record<string, unknown>) {
+  if (!hasSanityConfig || typeof document._id !== "string") return document;
+
+  const announcement = await client.fetch<Record<string, unknown> | null>(
+    `*[_type == "announcement" && _id == $id][0]{
+      _type,
+      _id,
+      title,
+      body,
+      category,
+      isPinned,
+      sendPushAlert,
+      publishedAt,
+      scheduleForLater,
+      scheduleDate,
+      scheduleTime,
+      scheduleTimeZone
+    }`,
+    { id: document._id },
+    { cache: "no-store" }
+  );
+
+  return announcement ? { ...document, ...announcement } : document;
+}
+
 export async function POST(request: Request) {
   const secret = process.env.PUSH_WEBHOOK_SECRET;
   if (!secret || getAuthSecret(request) !== secret) {
@@ -61,14 +89,34 @@ export async function POST(request: Request) {
 
   const sanityDocument = document as Record<string, unknown>;
 
-  // Announcement alerts are sent by the scheduler so future Published At values
-  // never notify early, even when the document itself is published immediately.
   if (sanityDocument._type === "announcement") {
-    return NextResponse.json({
-      ok: true,
-      skipped: true,
-      reason: "Announcement alert deferred to the publishing scheduler."
-    });
+    const announcementDocument = await getPublishedAnnouncement(sanityDocument);
+
+    if (announcementDocument.scheduleForLater === true) {
+      return NextResponse.json({
+        ok: true,
+        skipped: true,
+        reason: "Scheduled announcement alert deferred to the publishing scheduler."
+      });
+    }
+
+    const payload = toPushPayload(announcementDocument);
+
+    if (!payload) {
+      return NextResponse.json({ ok: true, skipped: true, reason: "Document is not urgent." });
+    }
+
+    const result = await sendPushToAll(payload);
+
+    if (
+      result.sent > 0 &&
+      typeof announcementDocument._id === "string" &&
+      typeof announcementDocument.publishedAt === "string"
+    ) {
+      await claimReminderSend(announcementReminderId(announcementDocument._id, new Date(announcementDocument.publishedAt)));
+    }
+
+    return NextResponse.json({ ok: true, ...result });
   }
 
   const payload = toPushPayload(sanityDocument);

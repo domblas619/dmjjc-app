@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { BottomNav } from "@/components/bottom-nav";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="pb-[calc(var(--bottom-nav-height)+env(safe-area-inset-bottom))] pt-[calc(var(--header-height)+env(safe-area-inset-top))] md:pb-10">{children}</main>
         <BottomNav />
+        <Analytics />
       </body>
     </html>
   );

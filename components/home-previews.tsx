@@ -22,6 +22,15 @@ export function EventPreviewList({ events }: { events: AcademyEvent[] }) {
               {formatDate(event.startDate).replace(", 2026", "")}
             </div>
             <div>
+              {event.image && (
+                <div className="mb-4 max-w-xs">
+                  <ImageLightbox src={event.image} alt={event.title}>
+                    <div className="relative aspect-[4/3] overflow-hidden border border-academy-line/10 bg-academy-charcoal">
+                      <Image src={event.image} alt="" fill sizes="(min-width: 640px) 20rem, 100vw" className="object-contain" />
+                    </div>
+                  </ImageLightbox>
+                </div>
+              )}
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="font-display text-xl font-black uppercase leading-none text-academy-foreground md:text-2xl">{event.title}</h3>
                 {urgent && <Badge tone="red" className="px-2 py-0.5 text-[10px] tracking-[.12em]">Check first</Badge>}

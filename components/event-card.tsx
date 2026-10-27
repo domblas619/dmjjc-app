@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, ExternalLink, MapPin, Users } from "lucide-react";
 import { Badge } from "@/components/badge";
+import { ImageLightbox } from "@/components/image-lightbox";
 import { formatDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { AcademyEvent } from "@/lib/types";
@@ -24,6 +26,15 @@ export function EventCard({ event }: { event: AcademyEvent }) {
         <span className="font-display text-5xl font-black leading-none text-academy-foreground">{day}</span>
       </div>
       <div>
+        {event.image && (
+          <div className="mb-5 max-w-lg">
+            <ImageLightbox src={event.image} alt={event.title}>
+              <div className="relative aspect-[4/3] overflow-hidden border border-academy-line/10 bg-academy-charcoal">
+                <Image src={event.image} alt="" fill sizes="(min-width: 768px) 32rem, 100vw" className="object-contain" />
+              </div>
+            </ImageLightbox>
+          </div>
+        )}
         <div className="flex flex-wrap items-center gap-2">
           <Badge tone={urgent ? "amber" : "blue"}>{event.eventType}</Badge>
           {(event.statusBadge || urgent) && <Badge tone="red">{event.statusBadge || "Check before class"}</Badge>}
